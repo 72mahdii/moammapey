@@ -1,0 +1,15 @@
+@keyframes coming {
+  from {
+    opacity: .8;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(90deg);
+  }
+}

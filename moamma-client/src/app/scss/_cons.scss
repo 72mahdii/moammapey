@@ -1,0 +1,17 @@
+.toggle-show {
+  display: block;
+}
+
+.toggle-hide {
+  display: none;
+}
+
+.deactive {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.active {
+  visibility: visible;
+  opacity: 1;
+}
