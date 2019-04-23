@@ -1,0 +1,86 @@
+<div class="home">
+
+  <header class="header">
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
+        <!-- Logo -->
+        <div class="logo-box">
+          <img src="assets/logo.png" alt="moammapey-logo" class="logo-img">
+        </div>
+      </div>
+      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+        <!-- Titles -->
+        <div class="title-box">
+          <h3 class="primary">گروه فنی و مهندسی معما پی</h3>
+          <h5 class="sub">ایمن بسازید سالم بمانید</h5>
+        </div>
+      </div>
+    </div>
+    <div class="nav-box">
+      <div class="item" routerLink="../">
+        <a class="item-link">بازگشت</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="details">
+    <!-- Details Box -->
+    <div class="details_box">
+      <!-- Detail's Header-->
+      <div class="box-header">
+        <!-- Detail's Title -->
+        <div class="article-title">
+         عنوان مقاله
+        </div>
+        <!-- Detail's About the Article -->
+        <div class="info-box">
+          <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 d-flex justify-content-center">
+              <!-- Category Details -->
+              <div class="category-box">
+                <div class="icon-box">
+                  <img src="assets/category.png" alt=""
+                    class="icon">
+                </div>
+                <span class="text">
+                  مقاله
+                </span>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 d-flex justify-content-center">
+              <!-- Creation Date Info -->
+              <div class="date-box">
+                <div class="icon-box">
+                  <img src="assets/calendar.png" alt="" class="icon">
+                </div>
+                <span class="text">
+                  2019-23-04
+                </span>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 d-flex justify-content-center">
+              <!-- Author Info -->
+              <div class="author-box">
+                <span class="name">
+                  نام نویسنده
+                </span>
+                <div class="author-img">
+                  <img src="assets/user.png" alt=""
+                    class="img">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Detail's Content -->
+      <div class="content" id="article_content">
+      </div>
+      <div class="footer">
+        <div class="button" (click)="onSendCmt(article?.article?.id)">
+          <div class="text">ارسال نظر</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

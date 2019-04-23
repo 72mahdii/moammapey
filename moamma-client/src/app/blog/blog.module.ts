@@ -5,10 +5,12 @@ import { FormsModule } from "@angular/forms";
 import { BlogRoutes } from './blog.routes';
 
 import { BlogComponent } from './blog/blog.component';
+import { ArticleComponent } from './article/article.component';
 
 @NgModule({
   declarations:[
     BlogComponent,
+    ArticleComponent,
   ],
   imports:[
     CommonModule,
