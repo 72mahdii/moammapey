@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28714.193
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "moamma-api", "moamma-api\moamma-api.csproj", "{F25DCB24-757B-4F66-8844-EFE3277379CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F25DCB24-757B-4F66-8844-EFE3277379CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F25DCB24-757B-4F66-8844-EFE3277379CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F25DCB24-757B-4F66-8844-EFE3277379CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F25DCB24-757B-4F66-8844-EFE3277379CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0C942F1-A83D-461E-AA9B-8E8210139DA4}
+	EndGlobalSection
+EndGlobal
