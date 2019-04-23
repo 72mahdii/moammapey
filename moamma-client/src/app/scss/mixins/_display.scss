@@ -17,6 +17,12 @@
   left: $left;
   transform: rotate(-45deg) translate($first, $sec);
 }
+@mixin ab-Rot($top, $left, $first, $sec) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform:translate($first, $sec) rotate(-45deg);
+}
 @mixin abTRot($top, $left, $first, $sec) {
   position: absolute;
   top: $top;
@@ -36,10 +42,25 @@
   transform: translate(-50%, -50%);
 
 }
+@mixin abLeft($top, $left) {
+  position: absolute;
+  left: $left;
+  top: $top;
+}
 @mixin abRight($top, $right) {
   position: absolute;
   top: $top;
   right: $right;
+}
+@mixin abRightR($top, $right, $deg){
+  @include abRight($top, $right);
+  transform: rotate($deg);
+}
+@mixin abLeftR($top, $left, $deg) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform: rotate($deg);
 }
 
 // fix position

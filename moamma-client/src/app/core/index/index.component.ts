@@ -75,7 +75,6 @@ export class IndexComponent implements OnInit {
   }
 
   private smartToggle(elInd?: number) {
-    console.log("I'm running");
     if (elInd == undefined) {
       setInterval(() => {
         var dom = document.getElementsByClassName("des-box");

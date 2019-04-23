@@ -4,10 +4,12 @@ import { RouterModule } from "@angular/router";
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { FooterComponent } from './core/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

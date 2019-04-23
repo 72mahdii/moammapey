@@ -1,3 +1,5 @@
+@import './variables/colors';
+@import './variables/gradients';
 .toggle-show {
   display: block;
 }
@@ -15,3 +17,5 @@
   visibility: visible;
   opacity: 1;
 }
+
+

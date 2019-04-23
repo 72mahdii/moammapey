@@ -1,0 +1,175 @@
+<div class="home">
+  <header class="header">
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
+        <!-- Logo -->
+        <div class="logo-box" routerLink="/home">
+          <img src="assets/logo.png" alt="moammapey-logo" class="logo-img">
+        </div>
+      </div>
+      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+        <!-- Titles -->
+        <div class="title-box">
+          <h3 class="primary">گروه فنی و مهندسی معما پی</h3>
+        </div>
+      </div>
+    </div>
+    <div class="nav-box">
+      <div class="item" routerLink="/docs/earth" routerLinkActive="active-nav">
+        <a class="item-link">سازه</a>
+      </div>
+      <div class="item" routerLinkActive="active-nav" routerLink="/docs/geo">
+        <a class="item-link">ژئوتکنیک</a>
+      </div>
+      <div class="item" routerLink="/docs/mng" routerLinkActive="active-nav">
+        <a class="item-link">مدیریت ساخت</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="intro">
+    <div class="title-box">
+      <div class="text">مقاله</div>
+    </div>
+    <div class="intro_content">
+      <div class="top">
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 d-flex justify-content-center">
+            <div class="search-box">
+              <input type="text" class="txt-box" placeholder="جست و جو...">
+              <a class="button">
+                <img src="assets/search.png" alt="" class="btn-icon">
+              </a>
+              <div class="ch-box">
+                <input id="ch" type="checkbox" class="ch-box--ch">
+                <label for="ch" class="ch-box--lbl">
+                  جست و جو در همه مقالات
+                  <span class="ch-box--lbl_ch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"></div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 d-flex justify-content-center">
+            <div class="author">
+              <div class="img-box">
+                <img src="assets/user.png" alt="" class="img">
+              </div>
+              <div class="title">
+                نام نویسنده
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="text-box">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti, ab deserunt! Et voluptatibus voluptatum delectus corporis. Sunt, iure. Quaerat, voluptas consectetur laborum molestiae quas mollitia beatae unde magni quis incidunt totam tenetur non illum, ab consequatur at alias, ex itaque. Reprehenderit dignissimos magnam ea odio esse modi excepturi dolorem enim.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+   <section>
+     <div class="article" >
+       <div class="row">
+         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+           <!-- Left Side of Article Box -->
+           <div class="left-side">
+             <!-- Category of Article -->
+             <div class="article-title-box">
+               <div class="text"> مقاله </div>
+             </div>
+             <!-- Author of Article -->
+             <div class="author-box">
+               <!-- Author's Photo-->
+               <img src="assets/user.png" alt="" class="img">
+               <!-- Autor's Name -->
+               <span class="name">
+                 نام نویسنده
+               </span>
+             </div>
+             <!-- Date Box of Article -->
+             <div class="date-box">
+               <!-- Date's Box -->
+               <div class="date">
+                 <!-- Date's Icon Box-->
+                 <div class="icon-box">
+                   <img src="assets/calendar.png" alt="" class="icon">
+                 </div>
+                 <!-- Date's Text -->
+                 <span class="date-text">
+                   2019-23-04
+                 </span>
+               </div>
+             </div>
+             <!-- Feedback of Article -->
+             <div class="feedback-box">
+               <!-- Comments -->
+               <div class="comment">
+                 <!-- Comments Icon -->
+                 <div class="icon-box">
+                   <img src="assets/comment.png" alt=""
+                     class="icon">
+                 </div>
+                 <!-- Comments Counter -->
+                 <span class="text">
+                   3
+                 </span>
+               </div>
+
+             </div>
+             <!-- Option Box of Article-->
+             <div class="option-box">
+               <!-- Tag of Article-->
+               <div class="tag-box">
+
+                 <span class="text" >
+                   No Tag
+                 </span>
+                 <span class="text" >
+                   NO TAG
+                 </span>
+               </div>
+               <!-- More Button -->
+               <div class="btn-box">
+                 <a class="btn-box--btn">
+                   <span class="text">مطالعه مقاله</span>
+                 </a>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+           <!-- Right Side of Article Box -->
+           <div class="right-side">
+             <!-- Title of Article -->
+             <div class="title">
+                عنوان مقاله
+             </div>
+             <!-- The Summary of Article -->
+             <div class="summary">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas quaerat incidunt velit, similique ipsa corporis?
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+   <section class="pg" >
+     <div class="pg_box">
+       <a class="pg-prv" >قبلی</a>
+       <a class="pg-number" [class.pg-active]="pg==activePage"
+         (click)="onChangePage(pg)">
+         {{pg}}
+       </a>
+       <a class="pg-next"
+         (click)="onChangePage(activePage+1)">بعدی</a>
+     </div>
+   </section>
+
+</div>
+
