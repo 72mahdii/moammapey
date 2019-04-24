@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  private _footerState: boolean = true;
+  constructor(private footerService: FooterService) {
+
+  }
 
   ngOnInit() {
+    this.footerService.state.subscribe(result => {
+      this._footerState = result;
+    })
   }
 
 }

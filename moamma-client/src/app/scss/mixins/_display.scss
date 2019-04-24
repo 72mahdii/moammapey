@@ -79,6 +79,12 @@
   overflow-y: scroll;
 }
 
+@mixin rawFix {
+  position: fixed;
+  top:0;
+  left:0;
+}
+
 // box-shadow
 @mixin shadow($content){
   box-shadow: 0 0 $content;
