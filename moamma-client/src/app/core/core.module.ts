@@ -6,11 +6,13 @@ import { IndexComponent } from './index/index.component';
 import { BlogModule } from '../blog/blog.module';
 import { AuthModule } from '../author/author.module';
 import { FooterService } from '../services/footer.service';
+import { AuthorLoginComponent } from './author-login/author-login.component';
 
 
 @NgModule({
   declarations:[
-    IndexComponent
+    IndexComponent,
+    AuthorLoginComponent
   ],
   imports: [
     CommonModule,
@@ -21,8 +23,4 @@ import { FooterService } from '../services/footer.service';
   ],
   providers:[],
 })
-export class CoreModule{
-  constructor(private _footerService : FooterService){
-    this._footerService.state.next(true);
-  }
-}
+export class CoreModule{}
