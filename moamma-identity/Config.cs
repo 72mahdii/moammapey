@@ -32,8 +32,8 @@ namespace moamma_identity
             {
                 new Client {
                     RequireConsent = false,
-                    ClientId = "angular_spa",
-                    ClientName = "Angular SPA",
+                    ClientId = "moamma_spa",
+                    ClientName = "MoammaPey SPA",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowedScopes = { 
                         "openid", 
@@ -47,18 +47,7 @@ namespace moamma_identity
                     AllowAccessTokensViaBrowser = true,
                     AccessTokenLifetime = 3600
                 },
-                new Client {
-                    RequireConsent = false,
-                    ClientId = "foreign_spa",
-                    ClientName = "Foreign SPA",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowedScopes = { "openid", "profile", "email"},
-                    RedirectUris =  { "http://localhost:6200"},
-                    PostLogoutRedirectUris = { "http://localhost:6200"},
-                    AllowedCorsOrigins = { "http://localhost:6200"},
-                    AllowAccessTokensViaBrowser = true,
-                    AccessTokenLifetime = 3600
-                }
+                
 
             };
         }
