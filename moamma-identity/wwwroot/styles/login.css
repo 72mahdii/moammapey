@@ -1,0 +1,226 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+@media(max-width: 480px) {
+    html {
+        font-size: 30.5% !important;
+    }
+}
+
+@media(min-width:768px) {
+    html {
+        font-size: 52.5%;
+    }
+}
+
+@media(min-width:991px) {
+    html {
+        font-size: 62.5%;
+    }
+}
+
+@media(min-width:1600px) {
+    html {
+        font-size: 100%;
+    }
+}
+.popup {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(233, 235, 238, .8);
+    top: 0;
+    left: 0;
+    z-index: 999;
+    transition: all .6s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.popup_content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45%;
+    box-shadow: 0 0 4rem rgb(42, 42, 42);
+    padding: 1rem;
+    text-align: center;
+    direction: rtl;
+    background: #e9ebee;
+    font-family: 'B_Esfehan';
+    color: #f94343;
+    font-size: 2rem;
+}
+
+.popup_close {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 3%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    color: #f94343;
+    transition: all .3s;
+}
+
+.popup_close:hover {
+    transform: translateY(-50%) rotate(90deg) scale(1.1);
+}
+.home {
+    background-image: linear-gradient(0deg, #e9ebee, #d6dadf);
+    height: 100vh;
+    width: 100%;
+}
+
+.entry {
+    background-image: linear-gradient(90deg, #2a2a2a, #5d5d5d);
+    direction: rtl;
+    width: auto;
+    min-height: 40rem;
+    border-radius: .5rem;
+    font-family: 'B_Esfehan';
+}
+
+.entry_title {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    background: #2d4ce9;
+    padding: 1rem 2rem;
+    color: #e9ebee;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+
+.entry_content {
+    margin: 1rem auto;
+}
+
+.entry_content_logo-box {
+    font-family: 'B_Yas';
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.entry_content_logo-box--img {
+    display: block;
+    width: 7rem;
+    margin: 0 auto;
+}
+
+.entry_content_logo-box--title {
+    display: block;
+    font-size: 2rem;
+    color: #ffd832;
+    text-align: center;
+}
+
+.entry_content_logo-box--sbtitle {
+    display: block;
+    font-size: 1rem;
+    color: #ffd832;
+    text-align: center;
+}
+
+
+
+.entry_content_form-box {
+    display: inline-block;
+    padding: 1rem 6rem;
+    margin: 0rem 1rem;
+    width: 35rem;
+}
+
+.entry_content_form-box--input-box {
+    position: relative;
+    margin: 3rem 0;
+}
+
+.entry_content_form-box--input-box--label {
+    font-size: 2rem;
+    color: #e9ebee;
+    margin-bottom: 1rem;
+}
+
+.entry_content_form-box--input-box--input {
+    direction: ltr;
+    border-radius: .5rem;
+    border: solid .2rem #2a2a2a;
+    outline: solid .2rem #e9ebee;
+    background: #e9ebee;
+    width: 25rem;
+    height: 3rem;
+    transition: all .3s;
+    padding: .5rem;
+    font-size: 1.5rem;
+}
+
+    .entry_content_form-box--input-box--input:focus {
+        border: solid .4rem #2b2b2c;
+        outline: solid .4rem #2d4ce9;
+        border-radius: .5rem;
+    }
+
+.entry_content_form-box--btn-box {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.eye-btn{
+    position: absolute;
+    top:36%;
+    right:4%;
+    color: #2b2b2c;
+    font-size: 2rem;
+    opacity: .8;
+    background: transparent;
+}
+
+.entry_content_form-box--btn-box--btn {
+    font-family:"B_Esfehan";
+    display: inline-block;
+    background: #2d4ce9;
+    padding: 1rem;
+    border: solid .2rem #2a2a2a;
+    outline: solid .2rem #2d4ce9;
+    color: #e9ebee;
+    font-size: 1.6rem;
+    width: 10rem;
+    transition: all .3s;
+}
+
+    .entry_content_form-box--btn-box--btn:active {
+        outline: none;
+        border-radius: 0;
+        border: solid .2rem #e9ebee;
+    }
+.forgot-btn{
+    cursor: pointer;
+    display: inline-block;
+    margin:0 auto;
+    text-align: center;
+    color: #e9ebee !important;
+    font-size: 1.5rem;
+    text-decoration: none;
+    padding: 3rem 2rem;
+    padding-bottom: 0;
+    transition: all .3s;
+}
+
+.forgot-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    /* font-size: 1.6rem; */
+    text-decoration: none;
+    color: #ffd832 !important;
+}
+
+
