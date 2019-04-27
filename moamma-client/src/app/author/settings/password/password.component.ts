@@ -34,34 +34,37 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit(){
+
     var message = new Message(
       "از اعمال تغییرات مطمئن هستید؟",
       [
         new MessageButton("انصراف", 'refuse'),
         new MessageButton("بله", 'confirm')]
-      );
-      this.messageService.messageListener.next(message);
-      this.messageService.response$.subscribe(result => {
-        if(result =='confirm'){
-          this.authorPanel.ChangePassowrd(this.password).subscribe(rs => {
-            if(rs == "ok"){
-              var msg = new Message(
-                "رمزعبور با موفقیت بروزرسانی شد.",
-                [new MessageButton("بستن", "confirm")]);
-              this.messageService.messageListener.next(msg);
-            }else {
-              var msg = new Message(
-                "خطادر بروزرسانی رمز عبور!",
-                [new MessageButton("بستن", "confirm")]);
-              this.messageService.messageListener.next(msg);
-            }
-            this.messageService.response$.subscribe(rst => {
-              this.router.navigate(['../']);
+    );
+    this.messageService.messageListener.next(message);
+    this.messageService.response$.subscribe(result => {
+      if (result == 'confirm') {
+        this.authorPanel.ChangePassowrd(this.password).subscribe(rs => {
+          if (rs == "ok") {
+            var msg = new Message(
+              "رمزعبور با موفقیت بروزرسانی شد.",
+              [new MessageButton("بستن", "confirm")]);
+            this.messageService.messageListener.next(msg);
+            this.messageService.response$.subscribe(result => {
+              this.messageService.messageListener.unsubscribe();
             });
-          });
-        }
-      });
-    console.log(this.password);
-    }
+          } else {
+            var msg = new Message(
+              "خطادر بروزرسانی رمز عبور!",
+              [new MessageButton("بستن", "confirm")]);
+            this.messageService.messageListener.next(msg);
+            this.messageService.response$.subscribe(result => {
+              this.messageService.messageListener.unsubscribe();
+            });
+          }
+        });
+      }
+    });
+  }
 
 }

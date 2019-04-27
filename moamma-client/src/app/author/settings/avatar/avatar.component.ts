@@ -71,15 +71,19 @@ export class AvatarComponent implements OnInit {
                 "تصویر پروفایل با موفقیت بروزرسانی شد.",
                 [new MessageButton("بستن", "confirm")]);
               this.messageService.messageListener.next(msg);
+              this.messageService.response$.subscribe(result => {
+                this.messageService.messageListener.unsubscribe();
+              });
             }else {
               var msg = new Message(
                 "خطا در بروز رسانی تصویر پروفایل!",
                 [new MessageButton("بستن", "confirm")]);
               this.messageService.messageListener.next(msg);
+              this.messageService.response$.subscribe(result => {
+                this.messageService.messageListener.unsubscribe();
+              });
             }
-            this.messageService.response$.subscribe(() => {
-              this.router.navigate(['../']);
-            });
+
           });
         }
       }

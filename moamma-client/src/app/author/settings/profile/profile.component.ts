@@ -32,27 +32,30 @@ export class ProfileComponent implements OnInit {
       ]
     );
     this.messageService.messageListener.next(message);
-    this.messageService.response$.subscribe(result=> {
-      if(result == "confirm"){
+    this.messageService.response$.subscribe(result => {
+      if (result == "confirm") {
         this.authorPanel.ChangeProfile(this.profile)
-            .subscribe(rs => {
-              if(rs == "ok"){
-                var msg = new Message(
-                  "اطلاعات پروفایل با موفقیت بروزرسانی شد.",
-                  [new MessageButton("بستن", "confirm")]);
-                this.messageService.messageListener.next(msg);
-              }else {
-                var msg = new Message(
-                  "خطا در بروز رسانی اطلاعات پروفایل!",
-                  [new MessageButton("بستن", "confirm")]);
-                this.messageService.messageListener.next(msg);
-              }
-              this.messageService.response$.subscribe(() => {
-                this.router.navigate(['../']);
+          .subscribe(rs => {
+            if (rs == "ok") {
+              var msg = new Message(
+                "اطلاعات پروفایل با موفقیت بروزرسانی شد.",
+                [new MessageButton("بستن", "confirm")]);
+              this.messageService.messageListener.next(msg);
+              this.messageService.response$.subscribe(result => {
+                this.messageService.messageListener.unsubscribe();
               });
-            })
-      }
-    })
-  }
+            } else {
+              var msg = new Message(
+                "خطا در بروز رسانی اطلاعات پروفایل!",
+                [new MessageButton("بستن", "confirm")]);
+              this.messageService.messageListener.next(msg);
+              this.messageService.response$.subscribe(result => {
+                this.messageService.messageListener.unsubscribe();
+              });
 
+            }
+          });
+      }
+    });
+  }
 }
