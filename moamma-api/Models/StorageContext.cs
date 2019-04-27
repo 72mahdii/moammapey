@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using moamma_identity.Models;
+using moamma_api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

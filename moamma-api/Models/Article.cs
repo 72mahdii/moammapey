@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moamma_identity.Models
+namespace moamma_api.Models
 {
     public class Article
     {

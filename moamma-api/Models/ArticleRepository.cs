@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using moamma_api.Models;
 
-namespace moamma_identity.Models
+namespace moamma_api.Models
 {
     public class ArticleRepository : IArticleRep
     {
