@@ -56,8 +56,8 @@ export class AvatarComponent implements OnInit {
     var message = new Message(
                               "آیا از تغییر آواتار مطمئن هستید؟",
                               [
-                                new MessageButton("انصراف", 0),
-                                new MessageButton("بله", 1)
+                                new MessageButton("انصراف", "refuse"),
+                                new MessageButton("بله", "confirm")
                               ]);
     this.messageServcie.messageListener.next(message)
     this.messageServcie.response$.subscribe(result => {

@@ -8,6 +8,6 @@ export class Message {
 export class MessageButton {
     constructor(
       public text: string,
-      public value : number
+      public value : string
     ){}
 }
