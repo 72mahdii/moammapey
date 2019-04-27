@@ -14,6 +14,8 @@ import { TrashComponent } from './trash/trash.component';
 import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
+import { AvatarComponent } from './settings/avatar/avatar.component';
+import { AuthorPanelService } from '../services/author.service';
 
 @NgModule({
   declarations:[
@@ -24,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     ArticlesListComponent,
     ArchiveComponent,
     TrashComponent,
+    AvatarComponent,
   ],
   imports:[
     CommonModule,
@@ -32,6 +35,6 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     AuthRoutes
   ],
-  providers:[AuthService, AuthGuard]
+  providers:[AuthService, AuthGuard, AuthorPanelService]
 })
 export class AuthModule {}

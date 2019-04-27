@@ -7,12 +7,14 @@ import { BlogModule } from '../blog/blog.module';
 import { AuthModule } from '../author/author.module';
 import { FooterService } from '../services/footer.service';
 import { AuthorLoginComponent } from './author-login/author-login.component';
+import { CallBackComponent } from './call-back/call-back.component';
 
 
 @NgModule({
   declarations:[
     IndexComponent,
-    AuthorLoginComponent
+    AuthorLoginComponent,
+    CallBackComponent
   ],
   imports: [
     CommonModule,

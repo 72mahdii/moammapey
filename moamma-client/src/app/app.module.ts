@@ -7,11 +7,14 @@ import { CoreModule } from './core/core.module';
 import { FooterComponent } from './core/footer/footer.component';
 import { FooterService } from './services/footer.service';
 import { CommonModule } from '@angular/common';
+import { MessageComponent } from './core/message/message.component';
+import { MessageService } from './services/message.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent
+    FooterComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +22,7 @@ import { CommonModule } from '@angular/common';
     CoreModule,
     RouterModule,
   ],
-  providers: [FooterService],
+  providers: [FooterService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

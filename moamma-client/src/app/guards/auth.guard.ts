@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate{
   ) : boolean{
     if(this.authService.isAuth()){ return true;}
     this.router.navigate(
-      ["/_72_01_02"],
+      ["/_72_11_01"],
       { queryParams: { redirect: state.url }, replaceUrl: true });
     return false;
   }

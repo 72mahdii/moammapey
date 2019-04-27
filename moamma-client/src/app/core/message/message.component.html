@@ -1,0 +1,19 @@
+<div [class]="message !=null ? 'message-section on' : 'message-section off'">
+  <div class="bg">
+    <div class="message-box">
+      <span class="message-close" (click)="onClose()">
+        <i class="fa fa-close"></i>
+      </span>
+      <span class="message-text">{{ message?.text }}</span>
+      <div class="message-buttons" *ngIf="message?.buttons !=null">
+        <div class="message-btn" *ngFor="let btn of message?.buttons" (click)="onPushBtn(btn?.value)">
+          <span class="message-btn--text">{{ btn?.text }}</span>
+        </div>
+      </div>
+      <div class="message-buttons" *ngIf="message?.buttons ==null">
+        <div class="message-btn"  (click)="onClose()">
+          <span class="message-btn--text">تایید</span>
+        </div>
+      </div>
+  </div>
+</div>
