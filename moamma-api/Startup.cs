@@ -25,6 +25,8 @@ namespace moamma_api
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<FrontAuthor>();
+            services.AddSingleton<IArticleRep, ArticleRepository>();
             services.AddDbContext<AdministrationContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:Author:ConnectionString"]));
             services.AddDbContext<StorageContext>(options =>
