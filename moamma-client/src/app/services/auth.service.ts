@@ -60,7 +60,9 @@ import {
     public register(){}
 
     /*>>>> Sign Out <<<<*/
-    public signOut(){}
+    public signOut(){
+      this._manager.signoutRedirect();
+    }
 
     /*>>>> Get Authorization Header <<<<*/
     get authorHeader(){

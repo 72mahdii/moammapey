@@ -16,6 +16,8 @@ import { AuthGuard } from '../guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { AvatarComponent } from './settings/avatar/avatar.component';
 import { AuthorPanelService } from '../services/author.service';
+import { PasswordComponent } from './settings/password/password.component';
+import { ProfileComponent } from './settings/profile/profile.component';
 
 @NgModule({
   declarations:[
@@ -27,6 +29,8 @@ import { AuthorPanelService } from '../services/author.service';
     ArchiveComponent,
     TrashComponent,
     AvatarComponent,
+    PasswordComponent,
+    ProfileComponent,
   ],
   imports:[
     CommonModule,
