@@ -11,13 +11,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using moamma_api.Models;
+using moamma_api.Models.Settings;
 
-namespace moamma_api.Controllers{
+namespace moamma_api.Controllers
+{
 
     [Authorize(Policy = "moamma_spa")]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class AdministrationController : Controller {
+    public class AdministrationController : Controller
+    {
 
         /* Conxtructor and Private property */
         #region ConstructorAndProperties
@@ -51,7 +54,7 @@ namespace moamma_api.Controllers{
 
         }
         #endregion
-       
+
 
         [HttpPost("[action]"), DisableRequestSizeLimit]
         public ActionResult UploadImage()
@@ -81,6 +84,19 @@ namespace moamma_api.Controllers{
             {
                 return Json("Upload Failed: " + ex.Message);
             }
+        }
+
+
+        [HttpPost("[action]")]
+        public ActionResult ChangePassowrd([FromBody]Password password)
+        {
+            return Json("okey");
+        }
+
+        [HttpPost("[action]")]
+        public ActionResult ChangeProfile([FromBody]Profile profile)
+        {
+            return Json("Okey");
         }
     }
 }
