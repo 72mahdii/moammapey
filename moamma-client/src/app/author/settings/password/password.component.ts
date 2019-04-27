@@ -3,6 +3,7 @@ import { Password } from 'src/app/models/password.model';
 import { MessageService } from 'src/app/services/message.service';
 import { Message, MessageButton } from 'src/app/models/message.model';
 import { AuthorPanelService } from 'src/app/services/author.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password',
@@ -16,7 +17,8 @@ export class PasswordComponent implements OnInit {
 
   constructor(
     private messageService : MessageService,
-    private authorPanel : AuthorPanelService
+    private authorPanel : AuthorPanelService,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -41,10 +43,25 @@ export class PasswordComponent implements OnInit {
       this.messageService.messageListener.next(message);
       this.messageService.response$.subscribe(result => {
         if(result =='confirm'){
-          this.authorPanel.ChangePassowrd(this.password);
+          this.authorPanel.ChangePassowrd(this.password).subscribe(rs => {
+            if(rs == "ok"){
+              var msg = new Message(
+                "رمزعبور با موفقیت بروزرسانی شد.",
+                [new MessageButton("بستن", "confirm")]);
+              this.messageService.messageListener.next(msg);
+            }else {
+              var msg = new Message(
+                "خطادر بروزرسانی رمز عبور!",
+                [new MessageButton("بستن", "confirm")]);
+              this.messageService.messageListener.next(msg);
+            }
+            this.messageService.response$.subscribe(rst => {
+              this.router.navigate(['../']);
+            });
+          });
         }
-      })
+      });
     console.log(this.password);
-  }
+    }
 
 }

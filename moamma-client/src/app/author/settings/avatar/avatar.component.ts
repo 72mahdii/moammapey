@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import { AuthorPanelService } from 'src/app/services/author.service';
 import { MessageService } from 'src/app/services/message.service';
 import { Message, MessageButton } from 'src/app/models/message.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-avatar',
@@ -28,7 +29,8 @@ export class AvatarComponent implements OnInit {
  //#region                   */
   constructor(
     private authorPanel : AuthorPanelService,
-    private messageServcie : MessageService
+    private messageService : MessageService,
+    private router : Router
     ) { }
 
   ngOnInit() {
@@ -59,11 +61,26 @@ export class AvatarComponent implements OnInit {
                                 new MessageButton("انصراف", "refuse"),
                                 new MessageButton("بله", "confirm")
                               ]);
-    this.messageServcie.messageListener.next(message)
-    this.messageServcie.response$.subscribe(result => {
+    this.messageService.messageListener.next(message)
+    this.messageService.response$.subscribe(result => {
       if(result == "confirm"){
         if(this.uploadedImage !=null){
-          this.authorPanel.changeAvatar(this.uploadedImage);
+          this.authorPanel.changeAvatar(this.uploadedImage).subscribe(rs => {
+            if(rs == "ok"){
+              var msg = new Message(
+                "تصویر پروفایل با موفقیت بروزرسانی شد.",
+                [new MessageButton("بستن", "confirm")]);
+              this.messageService.messageListener.next(msg);
+            }else {
+              var msg = new Message(
+                "خطا در بروز رسانی تصویر پروفایل!",
+                [new MessageButton("بستن", "confirm")]);
+              this.messageService.messageListener.next(msg);
+            }
+            this.messageService.response$.subscribe(() => {
+              this.router.navigate(['../']);
+            });
+          });
         }
       }
     });

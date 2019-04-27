@@ -3,6 +3,7 @@ import { Profile } from 'src/app/models/profile.model';
 import { Message, MessageButton } from 'src/app/models/message.model';
 import { MessageService } from 'src/app/services/message.service';
 import { AuthorPanelService } from 'src/app/services/author.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private messageService : MessageService,
-    private authorPanel : AuthorPanelService
+    private authorPanel : AuthorPanelService,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -32,8 +34,23 @@ export class ProfileComponent implements OnInit {
     this.messageService.messageListener.next(message);
     this.messageService.response$.subscribe(result=> {
       if(result == "confirm"){
-        console.log(this.profile);
-        this.authorPanel.ChangeProfile(this.profile);
+        this.authorPanel.ChangeProfile(this.profile)
+            .subscribe(rs => {
+              if(rs == "ok"){
+                var msg = new Message(
+                  "اطلاعات پروفایل با موفقیت بروزرسانی شد.",
+                  [new MessageButton("بستن", "confirm")]);
+                this.messageService.messageListener.next(msg);
+              }else {
+                var msg = new Message(
+                  "خطا در بروز رسانی اطلاعات پروفایل!",
+                  [new MessageButton("بستن", "confirm")]);
+                this.messageService.messageListener.next(msg);
+              }
+              this.messageService.response$.subscribe(() => {
+                this.router.navigate(['../']);
+              });
+            })
       }
     })
   }

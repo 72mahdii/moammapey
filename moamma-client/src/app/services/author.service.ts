@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Password } from '../models/password.model';
 import { Profile } from '../models/profile.model';
+import { Message, MessageButton } from '../models/message.model';
+import { MessageService } from './message.service';
 
 
 @Injectable()
@@ -11,7 +13,8 @@ export class AuthorPanelService {
   private _apiUrl = "http://localhost:5050/api/administration/";
   constructor(
     private authService : AuthService,
-    private httpClient : HttpClient
+    private httpClient : HttpClient,
+    private messageService : MessageService
   ){}
 
 
@@ -22,28 +25,22 @@ export class AuthorPanelService {
     const header = this.headerMaker(this.authService.authorHeader);
     var formData = new FormData();
     formData.append(file.name, file);
-    this.httpClient.post(
-      this._apiUrl + "uploadimage", formData, header)
-        .subscribe(response => console.log(response));
+    return this.httpClient.post(
+      this._apiUrl + "uploadimage", formData, header);
   }
 
   public ChangePassowrd(password: Password){
     const header = this.headerMaker(this.authService.authorHeader);
-    this.httpClient.post(
+    return this.httpClient.post(
       this._apiUrl + "changepassowrd",
       password,
       header
-      ).subscribe(result => {
-        // Do something
-      });
+      );
   }
 
   public ChangeProfile(profile : Profile){
     const header = this.headerMaker(this.authService.authorHeader);
-    this.httpClient.post(this._apiUrl + "changeprofile", profile, header)
-        .subscribe(result => {
-          // Do something
-        })
+    return this.httpClient.post(this._apiUrl + "changeprofile", profile, header);
   }
 
   private headerMaker(authorizaion, contentType=undefined){
