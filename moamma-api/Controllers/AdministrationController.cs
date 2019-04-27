@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,8 +56,9 @@ namespace moamma_api.Controllers
         #endregion
 
 
+        #region Avatar-Setting
         [HttpPost("[action]"), DisableRequestSizeLimit]
-        public ActionResult UploadImage()
+        public async Task<ActionResult> UploadImage()
         {
             try
             {
@@ -77,26 +78,96 @@ namespace moamma_api.Controllers
                     {
                         file.CopyTo(stream);
                     }
+                    Author author = await _userManager.GetUserAsync(HttpContext.User);
+                    FrontAuthor frontAuthor = this._storageContext.Author.FirstOrDefault(a => a.Id == author.Id);
+                    frontAuthor.ImgAddress = "/author-images/" + fileName;
+                    this._storageContext.Author.Update(frontAuthor);
+                    await this._storageContext.SaveChangesAsync();
                 }
-                return Json("Upload Successful.");
+                return Json("ok");
             }
             catch (System.Exception ex)
             {
-                return Json("Upload Failed: " + ex.Message);
+                return Json("Error:" + ex.Message);
             }
         }
+        #endregion
 
-
+        #region Change-Password
         [HttpPost("[action]")]
-        public ActionResult ChangePassowrd([FromBody]Password password)
+        public async Task<ActionResult> ChangePassowrd([FromBody]Password password)
         {
-            return Json("okey");
-        }
+            Author author = await _userManager.GetUserAsync(HttpContext.User);
+            IdentityResult validPass = null;
+            if (!string.IsNullOrEmpty(password.NewPass))
+            {
+                validPass = await _passwordValidator.ValidateAsync(_userManager, author, password.NewPass);
+                if (validPass.Succeeded)
+                {
+                    author.PasswordHash = _passwordHasher.HashPassword(author, password.NewPass);
+                }
+                else
+                {
+                    return Json(validPass.Errors);
 
-        [HttpPost("[action]")]
-        public ActionResult ChangeProfile([FromBody]Profile profile)
-        {
-            return Json("Okey");
+                }
+            }
+            if (password.NewPass != string.Empty && validPass.Succeeded)
+            {
+                IdentityResult result = await _userManager.UpdateAsync(author);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignOutAsync();
+                    return Json("ok");
+                }
+                else
+                {
+                    return Json(result.Errors);
+                }
+            }
+            return Json("ERROR");
         }
+        #endregion
+
+        #region Change-Profile
+        [HttpPost("[action]")]
+        public async Task<ActionResult> ChangeProfile([FromBody]Profile profile)
+        {
+            Author author = await _userManager.GetUserAsync(HttpContext.User);
+            FrontAuthor frontAuthor = _storageContext.Author.FirstOrDefault(u => u.Id == author.Id);
+            if (!string.IsNullOrEmpty(profile.Email) &&
+                        !string.IsNullOrWhiteSpace(profile.Email))
+            {
+                author.Email = profile.Email;
+            }
+            if (!string.IsNullOrWhiteSpace(profile.UserName) && !string.IsNullOrEmpty(profile.UserName))
+            {
+                author.UserName = profile.UserName;
+                frontAuthor.UserName = profile.UserName;
+            }
+            if (!string.IsNullOrEmpty(profile.PersianName) && !string.IsNullOrWhiteSpace(profile.PersianName))
+            {
+                author.NameInPersian = profile.PersianName;
+                frontAuthor.Name = profile.PersianName;
+            }
+            if (!string.IsNullOrEmpty(profile.Category) && !string.IsNullOrWhiteSpace(profile.Category))
+            {
+                author.Category = profile.Category;
+                frontAuthor.Category = profile.Category;
+            }
+            IdentityResult result = await _userManager.UpdateAsync(author);
+            if (result.Succeeded)
+            {
+                _storageContext.Author.Update(frontAuthor);
+                await _storageContext.SaveChangesAsync();
+                return Json("ok");
+            }
+            else
+            {
+                return Json(result.Errors);
+            }
+        }
+        #endregion
+
     }
 }
