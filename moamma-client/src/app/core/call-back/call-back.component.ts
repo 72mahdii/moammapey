@@ -18,9 +18,10 @@ export class CallBackComponent implements OnInit {
   async ngOnInit() {
     if(this.route.snapshot.fragment.indexOf('error')>=0){
       // do something later
+      console.log("____ERROR_____");
     }
     await this.authService.completeAuth();
-    this.router.navigate(['/author', 'index']);
+    this.router.navigate(['/authors', 'index']);
 
   }
 

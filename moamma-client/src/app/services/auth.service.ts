@@ -48,7 +48,7 @@ import {
 
     /*>>>> Checkout Authentication <<<<*/
     public isAuth() : boolean{
-      return this._user !=null  && this._user.expired;
+      return this._user !=null  && !this._user.expired;
     }
 
     /*>>>> Login <<<<*/

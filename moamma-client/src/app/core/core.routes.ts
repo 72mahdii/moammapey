@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: "", component: IndexComponent , pathMatch:"full" },
   { path: "index", redirectTo: "" },
   { path: "home", redirectTo: "" },
-  { path: "call-back", component: CallBackComponent },
+  { path: "auth-callback", component: CallBackComponent },
   { path: "_72_11_01", component: AuthorLoginComponent }
 ]
 
