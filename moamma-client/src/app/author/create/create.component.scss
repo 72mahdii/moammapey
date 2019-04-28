@@ -1,0 +1,33 @@
+@import '../../scss/importer';
+
+.create-box {
+  @include bg($blue_4);
+  direction: rtl;
+  .form-header{
+    @include bg($white_1);
+    @include border(.1rem rgba($red_1, .3));
+    display: block;
+    font-family: 'B_Esfehan';
+    font-size: 2.5rem;
+    padding: 2rem;
+    margin: 2rem auto;
+    margin-bottom: 0;
+  }
+  .article-form {
+    @include border(.1rem rgba($red_1, .3));
+    @include bg($white_1);
+    @include size(100%, auto);
+    padding: 2rem 3rem;
+    border-top:none;
+  }
+}
+
+input, button, select, textarea {
+  font-family: 'B_Mitra';
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+:host ::ng-deep .ck-editor__editable {
+  min-height: 50rem;
+}

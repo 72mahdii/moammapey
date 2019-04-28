@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AuthRoutes } from './auth.routes';
 import { IndexComponent } from './index/index.component';
@@ -18,6 +19,8 @@ import { AvatarComponent } from './settings/avatar/avatar.component';
 import { AuthorPanelService } from '../services/author.service';
 import { PasswordComponent } from './settings/password/password.component';
 import { ProfileComponent } from './settings/profile/profile.component';
+import { CreateComponent } from './create/create.component';
+
 
 @NgModule({
   declarations:[
@@ -31,8 +34,10 @@ import { ProfileComponent } from './settings/profile/profile.component';
     AvatarComponent,
     PasswordComponent,
     ProfileComponent,
+    CreateComponent,
   ],
   imports:[
+    CKEditorModule,
     CommonModule,
     BrowserModule,
     HttpClientModule,

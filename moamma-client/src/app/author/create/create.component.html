@@ -1,0 +1,87 @@
+<div class="create-box">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <h3 class="form-header">ایجاد مقاله جدید</h3>
+        <form (onSubmit)="onSubmit()" class="article-form">
+          <!-- First Row [Title, Category, Tag] -->
+          <div class="row py-2">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+              <!-- Article Title Input -->
+              <input
+                type="text"
+                placeholder="عنوان مقاله"
+                class="form-control form-control-lg"
+                [(ngModel)]="article.title"
+                name="title"
+                >
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
+              <!-- Article Category Input -->
+              <select
+                class="custom-select form-control-lg "
+                [(ngModel)]="article.category"
+                name="category">
+                <option selected>دسته بندی مقاله</option>
+                <option value="geo">ژئوتکنیک</option>
+                <option value="mng">مدیریت ساخت</option>
+                <option value="earth">سازه</option>
+                <option value="other">متفرقه</option>
+              </select>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
+              <!-- Article Tag -->
+              <select class="custom-select form-control-lg " [(ngModel)]="article.tag" name="tag">
+                <option>تگ مقاله</option>
+                <option value="els">ELSEVIER</option>
+                <option value="spr">SPRINGER</option>
+                <option value="none" selected>بدونه تگ</option>
+              </select>
+            </div>
+          </div>
+          <!-- Second Row [Summary] -->
+          <div class="row py-2">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <!-- Article Summary -->
+              <textarea
+                name=""
+                cols="30"
+                rows="10"
+                class="form-control form-control-lg"
+                placeholder="خلاصه مقاله(جهت نمایش در لیست مقالات)"
+                ></textarea>
+            </div>
+
+          </div>
+          <!-- CKEdito Article Content -->
+          <div class="row py-2">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <ckeditor
+                id="editor"
+                [editor]="decoupleEditor"
+                [config]="onConfig"
+                (ready)="onReady($event)"
+              >
+              </ckeditor>
+            </div>
+          </div>
+          <div class="row py-2">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+              <button class="btn btn-success btn-lg btn-block my-2">ارسال</button>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+              <button class="btn btn-primary btn-lg btn-block my-2">آرشیو</button>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+              <button class="btn btn-info btn-lg btn-block my-2">پیش نمایش</button>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+              <button class="btn btn-secondary btn-lg btn-block my-2">انصراف</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

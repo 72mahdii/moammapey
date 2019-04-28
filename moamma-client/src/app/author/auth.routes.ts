@@ -7,6 +7,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { AvatarComponent } from './settings/avatar/avatar.component';
 import { PasswordComponent } from './settings/password/password.component';
 import { ProfileComponent } from './settings/profile/profile.component';
+import { CreateComponent } from './create/create.component';
 
 const children: Routes =[
   { path: "repository", component: ArticlesListComponent },
@@ -14,7 +15,8 @@ const children: Routes =[
   { path: "trash", component: TrashComponent},
   { path: "avatar-setting", component: AvatarComponent },
   { path: "change-password", component: PasswordComponent },
-  { path: "change-profile", component: ProfileComponent }
+  { path: "change-profile", component: ProfileComponent },
+  { path: "create-article", component: CreateComponent }
 ];
 
 const routes : Routes =[
