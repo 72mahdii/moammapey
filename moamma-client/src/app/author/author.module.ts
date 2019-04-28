@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AuthRoutes } from './auth.routes';
 import { IndexComponent } from './index/index.component';
@@ -37,7 +36,6 @@ import { CreateComponent } from './create/create.component';
     CreateComponent,
   ],
   imports:[
-    CKEditorModule,
     CommonModule,
     BrowserModule,
     HttpClientModule,
