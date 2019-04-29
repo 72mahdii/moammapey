@@ -24,6 +24,7 @@
         font-family: 'B_Mitra';
         font-weight: bold;
         font-size: 2rem;
+        direction: rtl;
       }
       .message-buttons {
         @include size(60rem, 4rem);

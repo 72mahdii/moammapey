@@ -28,9 +28,12 @@ export class MessageComponent implements OnInit {
   constructor(private messageServcie: MessageService) { }
 
   ngOnInit() {
-    this.messageServcie.messageListener$.subscribe(message => {
-      this.message = message;
-    });
+    // this.messageServcie.messageListener$.subscribe(message => {
+    //   this.message = message;
+    // });
+    this.messageServcie.messageNotif.subscribe(res => {
+      this.message = res;
+    })
   }
 
   //#endregion
@@ -42,13 +45,21 @@ export class MessageComponent implements OnInit {
   /*                    */
  //#region              /
 
-  onPushBtn(value: any) {
-    this.messageServcie.response.next(value);
-    this.onClose();
+  onPushBtn(value: string) {
+    // this.messageServcie.response.next(value);
+    if(value =="confirm"){
+      this.messageServcie.responseNotif.next(value);
+      this.onClose();
+
+    }else {
+      this.message = null;
+    }
   }
 
   onClose() {
     this.message = null;
+    // this.messageServcie.messageNotif.unsubscribe();
+    // this.messageServcie.responseNotif.unsubscribe();
   }
 
 //#endregion

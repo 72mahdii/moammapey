@@ -4,6 +4,7 @@ export class Article {
     public category: string,
     public tag: string,
     public summary :string,
-    public content: string
+    public content: string,
+    public archive: boolean
   ){}
 }
