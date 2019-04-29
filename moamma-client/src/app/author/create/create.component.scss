@@ -21,13 +21,18 @@
     border-top:none;
   }
 }
-
-input, button, select, textarea {
-  font-family: 'B_Mitra';
+input,
+button,
+select,
+textarea
+{
+  font-family: 'B_Esfehan';
   font-weight: bold;
   font-size: 2rem;
 }
-
-:host ::ng-deep .ck-editor__editable {
-  min-height: 50rem;
+.text-editor {
+  direction: ltr;
+  min-height: 30rem;
 }
+
+

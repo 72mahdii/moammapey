@@ -19,7 +19,7 @@ import { AuthorPanelService } from '../services/author.service';
 import { PasswordComponent } from './settings/password/password.component';
 import { ProfileComponent } from './settings/profile/profile.component';
 import { CreateComponent } from './create/create.component';
-
+import { NgxSummernoteModule } from "ngx-summernote";
 
 @NgModule({
   declarations:[
@@ -40,7 +40,8 @@ import { CreateComponent } from './create/create.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AuthRoutes
+    AuthRoutes,
+    NgxSummernoteModule
   ],
   providers:[AuthService, AuthGuard, AuthorPanelService]
 })

@@ -22,7 +22,7 @@
                 class="custom-select form-control-lg "
                 [(ngModel)]="article.category"
                 name="category">
-                <option selected>دسته بندی مقاله</option>
+                <option value="none" selected>دسته بندی مقاله</option>
                 <option value="geo">ژئوتکنیک</option>
                 <option value="mng">مدیریت ساخت</option>
                 <option value="earth">سازه</option>
@@ -46,7 +46,7 @@
               <textarea
                 name=""
                 cols="30"
-                rows="10"
+                rows="6"
                 class="form-control form-control-lg"
                 placeholder="خلاصه مقاله(جهت نمایش در لیست مقالات)"
                 ></textarea>
@@ -57,6 +57,9 @@
           <div class="row py-2">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <!-- Rich Text Editor Comming Here -->
+              <div class="text-editor">
+                <div  [ngxSummernote]="onConfig"></div>
+              </div>
             </div>
           </div>
           <div class="row py-2">
