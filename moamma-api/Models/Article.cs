@@ -25,4 +25,14 @@ namespace moamma_api.Models
         public List<Comment> Comments { get; set; }
 
     }
+
+    public class ArticleModel
+    {
+        public string Title { get; set; }
+        public string Category { get; set; }
+        public string Tag { get; set; }
+        public string Summary { get; set; }
+        public string Content { get; set; }
+        public bool Archive { get; set; }
+    }
 }

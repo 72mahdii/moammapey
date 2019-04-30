@@ -169,5 +169,14 @@ namespace moamma_api.Controllers
         }
         #endregion
 
+        #region FetchAuthor
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<Author> FetchAuthor()
+        {
+            Author author = await _userManager.GetUserAsync(HttpContext.User);
+            if (author != null) return author;
+            return null;
+        }
     }
 }
