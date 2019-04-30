@@ -1,4 +1,44 @@
+@import '../../scss/importer';
+
 .section {
+  position: relative;
   background: linear-gradient(90deg, #1a1919, #272626);
   min-height: 100vh;
+}
+
+.popup-message {
+  @include size(30rem, 6rem);
+  @include bg($white_1);
+  position: fixed;
+  bottom:2%;
+  right:2%;
+  &:hover {
+    opacity: .4;
+  }
+  .close-btn {
+    @include abRight(1%, 2%);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: $red_1;
+  }
+  .message-text{
+    @include abC;
+    @include size(100%, auto);
+    font-family: 'B_Esfehan';
+    font-size: 2rem;
+    text-align: center;
+    direction: rtl;
+    color: $green;
+
+  }
+
+
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
 }

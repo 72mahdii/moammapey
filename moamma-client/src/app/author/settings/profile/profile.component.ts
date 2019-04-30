@@ -1,19 +1,30 @@
+    /*---------*/
+  /* Imports */
+/*---------*/
+//#region
 import { Component, OnInit } from '@angular/core';
 import { Profile } from 'src/app/models/profile.model';
 import { Message, MessageButton } from 'src/app/models/message.model';
 import { MessageService } from 'src/app/services/message.service';
 import { AuthorPanelService } from 'src/app/services/author.service';
 import { Router } from '@angular/router';
+//#endregion
+
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
+
 export class ProfileComponent implements OnInit {
 
   public profile : Profile  = new Profile("","","", "");
 
+      /*------------------------*/
+    /* Construct and ngOnInit */
+  /*------------------------*/
+  //#region
   constructor(
     private messageService : MessageService,
     private authorPanel : AuthorPanelService,
@@ -22,7 +33,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
   }
+  //#endregion
 
+    /*--------------------*/
+  /* Methods and Events */
+/*--------------------*/
+//#region
   onSubmit(){
     var message = new Message(
       "تغییرات پروفایل اعمال شوند؟",
@@ -58,4 +74,6 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+  //#endregion
+
 }

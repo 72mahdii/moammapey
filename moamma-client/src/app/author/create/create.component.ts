@@ -1,12 +1,17 @@
+  /*--------  */
+ /* Imports */
+/*--------*/
+//#region
 import { Component, OnInit } from '@angular/core';
 
-import { Article } from 'src/app/models/article.model';
+import { Article, ArticleModel } from 'src/app/models/article.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthorPanelService } from 'src/app/services/author.service';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Message, MessageButton } from 'src/app/models/message.model';
 import { MessageService } from 'src/app/services/message.service';
-
+import { Router } from '@angular/router';
+//#endregion
 
 
 @Component({
@@ -19,6 +24,7 @@ export class CreateComponent implements OnInit {
     /*------------------------*/
    /* Properties and Fields */
   /*----------------------*/
+  //#region
   public article : Article = new Article("", "", "", "", "", false) ;
   public articleForm: FormGroup ;
   /*_________Rich Text Config_________*/
@@ -49,20 +55,22 @@ export class CreateComponent implements OnInit {
                 'A_Mashin_Tahrir', 'A_Hakim_Ghazali', 'Far_Cairo',
                 'JMH_Typewriter', , 'Guardians'],
   };
-
   public config_show = {
     height: "70rem",
     background: "#444",
     toolbar: [],
   }
+  //#endregion
 
     /*---------------------------*/
    /* Constructor and ngOnInit */
   /*-------------------------*/
+  //#region
   constructor(
     private authService : AuthService,
     private authorPanelService : AuthorPanelService,
-    private messageService : MessageService
+    private messageService : MessageService,
+    private router : Router
   ) {
     this.articleForm =  new FormGroup({
       "title": new FormControl(
@@ -80,8 +88,13 @@ export class CreateComponent implements OnInit {
 
   ngOnInit() {
   }
+//#endregion
 
-  onSubmit(archive? : string){
+    /*---------------------*/
+   /* Methods and Events */
+  /*-------------------*/
+  //#region
+  public onSubmit(archive? : string){
     /*___Creatation Message___*/
     this.messageService.CreateMessage(
       'آیا از ایجاد این مقاله مطمئن هستید؟',
@@ -91,7 +104,7 @@ export class CreateComponent implements OnInit {
       this.messageService.responseNotif.subscribe(res => {
         if(res == "confirm"){
           /*___Create Article___*/
-          this.article = new Article(
+          this.article = new ArticleModel(
             this.articleForm.controls['title'].value,
             this.articleForm.controls['category'].value,
             this.articleForm.controls['tag'].value,
@@ -107,6 +120,7 @@ export class CreateComponent implements OnInit {
                 'مقاله مورد نظر با موفقیت ایجاد شد.',
                 new MessageButton("بستن", "refuse")
               );
+              this.router.navigate(['authors','index']);
             }
           },error => {
             /*___Server Error Message___*/
@@ -122,13 +136,13 @@ export class CreateComponent implements OnInit {
 
   }
 
-  onClosePreShow(){
+  public onClosePreShow(){
     document.getElementById("home").classList.add("close-it");
     document.getElementById("home").classList.remove("show-it");
   }
 
-  onShowPreShow(){
-    this.article = new Article(
+  public onShowPreShow(){
+    this.article = new ArticleModel(
       this.articleForm.controls['title'].value,
       this.articleForm.controls['category'].value,
       this.articleForm.controls['tag'].value,
@@ -139,5 +153,5 @@ export class CreateComponent implements OnInit {
     document.getElementById("home").classList.remove("close-it");
     document.getElementById("home").classList.add("show-it");
   }
-
+  //#endregion
 }

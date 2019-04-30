@@ -11,10 +11,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent implements OnInit {
-
+    /*------------------------*/
+   /* Properties and Fields */
+  /*----------------------*/
+  //#region
   public password : Password = new Password("","");
   public formValid :boolean = false;
 
+  //#endregion
+
+    /*-------------------------*/
+   /* Construct and ngOnInit */
+  /*-----------------------*/
+  //#region
   constructor(
     private messageService : MessageService,
     private authorPanel : AuthorPanelService,
@@ -23,8 +32,12 @@ export class PasswordComponent implements OnInit {
 
   ngOnInit() {
   }
+//#endregion
 
-
+  /*---------------------*/
+ /* Methods and Events */
+/*-------------------*/
+//#region
   onChange(){
     if(this.password.newPass != this.password.repPass){
       this.formValid = false;
@@ -34,7 +47,6 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit(){
-
     var message = new Message(
       "از اعمال تغییرات مطمئن هستید؟",
       [
@@ -66,5 +78,5 @@ export class PasswordComponent implements OnInit {
       }
     });
   }
-
+  //#endregion
 }

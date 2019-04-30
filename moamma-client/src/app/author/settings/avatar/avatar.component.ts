@@ -1,15 +1,24 @@
+    /*           */
+   /* Imports  */
+  /*         */
+ //#region */
 import { Component, OnInit } from '@angular/core';
 import * as $ from "jquery";
 import { AuthorPanelService } from 'src/app/services/author.service';
 import { MessageService } from 'src/app/services/message.service';
 import { Message, MessageButton } from 'src/app/models/message.model';
 import { Router } from '@angular/router';
+//#endregion
+/*_______*/
+
 
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss']
 })
+
+
 export class AvatarComponent implements OnInit {
 
     /*                       */
