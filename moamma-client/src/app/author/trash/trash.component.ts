@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from "jquery";
+import { Trash } from 'src/app/models/trash.model';
+import { AuthorPanelService } from 'src/app/services/author.service';
+import { MessageService } from 'src/app/services/message.service';
+import { MessageButton, Message } from 'src/app/models/message.model';
+import { Article } from 'src/app/models/article.model';
 
 @Component({
   selector: 'app-trash',
@@ -8,38 +13,72 @@ import * as $ from "jquery";
 })
 export class TrashComponent implements OnInit {
 
-  constructor() { }
+  public trashes : Trash[] = [];
+
+  constructor(
+    private _authorPanel : AuthorPanelService,
+    private _messageService : MessageService
+  ) { }
 
   ngOnInit() {
-    Functionate.dismis();
+    this._authorPanel.FetchTrashes();
+    this.trashes = this._authorPanel.trashesList;
+    this._authorPanel.loadTrash.subscribe(rs => {
+      this.trashes = this._authorPanel.trashesList;
+    })
   }
 
-  restoreFunc(id, el) {
-    var att = document.createAttribute("href");
-    att.value = "/administration/restoretrash/" + id;
-    document.getElementById("okbtn").setAttributeNode(att);
-    $(".text-message").text("آیا بازیابی این مقاله مطمئن هستید؟");
-    document.getElementById("message_dialog").style.opacity = "1";
-    document.getElementById("message_dialog").style.visibility = "visible";
+  onUndo(trash : Trash){
+    let ok=[["بستن", ()=> {}]];
+    let undo =[
+      ["انصراف", ()=>{}],
+      ["بله", ()=> {
+        var article: Article = new Article(
+          trash.title,
+          trash.category,
+          trash.tag,
+          trash.summary,
+          trash.content,
+          true
+        );
+        this._authorPanel.RetArticle(trash).subscribe(r => {
+          if (r == "ok") {
+            this._messageService.currentMessage.next(
+              new Message(
+                "مقاله با موفقیت بازگردانی و در قسمت آرشیو ها ذخیره شد",
+                ok));
+            this._authorPanel.FetchArticles();
+            this._authorPanel.FetchTrashes();
+          } else {
+            this._messageService.currentMessage.next(
+              new Message(
+                "خطا در عملیات بازگردانی",
+                ok));
+          }
+        }, error => this._messageService.currentMessage.next(new Message("خطا در برقراری ارتباط با سرور...!", ok)));
+      }]
+    ]
+
+    this._messageService.currentMessage.next(
+      new Message(
+        "مقاله بازگردانی شود؟",
+        undo
+      ));
   }
 
-  deleteFunc(id, el) {
-    var att = document.createAttribute("href");
-    att.value = "/administration/cleartrash/" + id;
-    document.getElementById("okbtn").setAttributeNode(att);
-    $(".text-message").text("آیا از حذف این مقاله مطمئن هستید؟");
-    document.getElementById("message_dialog").style.opacity = "1";
-    document.getElementById("message_dialog").style.visibility = "visible";
-  }
+  onDelete(id){
+    let ok = [['بستن', ()=>{}]];
+    let erase   = [
+      ['انصراف',()=>{}],
+      ['بله', ()=> {
+        this._authorPanel.EraseArticle(id);
+        this._authorPanel.FetchArticles();
+        this._authorPanel.FetchTrashes();
+      }]
+    ];
+    this._messageService.currentMessage.next(
+      new Message("مقاله بطور کامل حذف گردد؟", erase)
+    );
 
-}
-
-class Functionate{
-
-   static dismis(){
-    document.getElementById("cancelbtn").onclick = function () {
-      document.getElementById("message_dialog").style.opacity = "0";
-      document.getElementById("message_dialog").style.visibility = "hidden";
-    }
   }
 }

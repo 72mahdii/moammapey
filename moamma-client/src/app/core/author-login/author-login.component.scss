@@ -9,11 +9,11 @@
     position: relative;
       @include abRightT(30%, 50%, 50%, 0%);
       @include border(.5rem $gold_2);
-      @include size(20rem, 20rem);
+      @include size(40rem, 20rem);
       animation: updown;
       animation-duration: 2s;
       animation-iteration-count: infinite;
-      border-radius: 100%;
+      border-radius: .5rem;
       color: $gold_1;
       .text {
         @include abC;

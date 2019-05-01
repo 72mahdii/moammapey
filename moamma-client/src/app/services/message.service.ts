@@ -6,21 +6,22 @@ import { Message, MessageButton } from '../models/message.model';
 
 export class MessageService {
 
-      /*                       */
-     /* Properties and Fields */
-    /*                       */
-  //#region                 */
-  public messageListener = new BehaviorSubject<Message>(null);
-  public messageListener$ = this.messageListener.asObservable();
+  public currentMessage = new Subject<Message>();
 
-  public response = new BehaviorSubject<string>(null);
-  public response$ = this.response.asObservable();
+  //#region
+  /*
 
+  public message : Message = null;
   public messageNotif = new Subject<Message>();
   public responseNotif = new Subject<string>();
+  public msgCome = new Subject<boolean>();
   //#endregion
-  /*_______________________*/
 
+
+
+  ngOnInit(){
+
+  }
   public CreateMessage(text: string, btn1 : MessageButton, btn2? : MessageButton){
     var msg: Message;
     if(btn2 == undefined){
@@ -30,5 +31,16 @@ export class MessageService {
     }
     // this.messageListener.next(msg);
     this.messageNotif.next(msg);
+    this.messageNotif.subscribe(msg => {
+      if (msg != null) {
+        this.message = msg;
+        this.msgCome.next(true);
+      } else {
+        this.message = null;
+        this.messageNotif.next(null);
+      }
+    });
   }
+*/
+//#endregion
 }

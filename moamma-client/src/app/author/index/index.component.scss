@@ -3,7 +3,7 @@
 .section {
   position: relative;
   background: linear-gradient(90deg, #1a1919, #272626);
-  min-height: 100vh;
+  height:100%;
 }
 
 .popup-message {
@@ -36,9 +36,42 @@
 }
 
 .hide {
-  display: none;
+  // display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .6s;
 }
 
 .show {
-  display: block;
+  visibility: visible;
+  opacity: 1;
+  transition: all .6s;
 }
+
+.loading-box {
+  @include rawFix;
+  @include bg(rgba($black_1, .7));
+  @include size(100%, 100vh);
+  transition: all .6s;
+  .loading {
+    position: relative;
+    @include abRightT(30%, 50%, 50%, 0%);
+    @include border(.5rem $gold_2);
+    @include size(40rem, 20rem);
+    animation: updown;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    border-radius: .5rem;
+    color: $gold_1;
+
+    .text {
+      @include abC;
+      font-size: 2.5rem;
+      font-family: 'B_Esfehan';
+      text-align: center;
+      width: 100%;
+    }
+
+  }
+}
+

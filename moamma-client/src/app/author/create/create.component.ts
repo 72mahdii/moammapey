@@ -7,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
 import { Article, ArticleModel } from 'src/app/models/article.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthorPanelService } from 'src/app/services/author.service';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Message, MessageButton } from 'src/app/models/message.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Message} from 'src/app/models/message.model';
 import { MessageService } from 'src/app/services/message.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 //#endregion
 
 
@@ -27,6 +27,7 @@ export class CreateComponent implements OnInit {
   //#region
   public article : Article = new Article("", "", "", "", "", false) ;
   public articleForm: FormGroup ;
+  private _editMode: boolean;
   /*_________Rich Text Config_________*/
   public onConfig = {
     height: "30rem",
@@ -67,26 +68,60 @@ export class CreateComponent implements OnInit {
   /*-------------------------*/
   //#region
   constructor(
-    private authService : AuthService,
-    private authorPanelService : AuthorPanelService,
-    private messageService : MessageService,
-    private router : Router
+    private _authService : AuthService,
+    private _authorPanelService : AuthorPanelService,
+    private _messageService : MessageService,
+    private _router : Router,
+    private _rotue : ActivatedRoute
   ) {
-    this.articleForm =  new FormGroup({
-      "title": new FormControl(
-                                null,
-                                [
-                                  Validators.required,
-                                  Validators.minLength(5)
-                                ]),
-      "tag": new FormControl('تگ مقاله', [Validators.required]),
-      "category": new FormControl('دسته بندی مقاله',[Validators.required]),
-      "summary": new FormControl('', [Validators.required]),
-      "content": new FormControl('', [Validators.required])
-    });// End Of Form Group
+
   }
 
   ngOnInit() {
+    this._rotue.params.subscribe(pr => {
+      if(pr['id']!="-"){
+        this._editMode = true;
+        this.article = this._authorPanelService.ReturnArticle(pr['id']);
+        if(this.article !=null){
+          this.articleForm = new FormGroup({
+            "title": new FormControl(
+              this.article.title,
+              [
+                Validators.required,
+                Validators.minLength(5)
+              ]),
+            "tag": new FormControl(this.article.tag, [Validators.required]),
+            "category": new FormControl(this.article.category, [Validators.required]),
+            "summary": new FormControl(this.article.summary, [Validators.required]),
+            "content": new FormControl(this.article.content, [Validators.required])
+          });// End Of Form Group
+        }else {
+          let ok :[[string, ()=>void]]=[
+            ['بستن', ()=>{}]
+          ];
+          this._messageService.currentMessage.next(
+            new Message(
+              "مقاله ای با این شناسه یافت نشد!",
+              ok
+            ));
+          this._router.navigate(['authors','index','repository']);
+        }
+      }else {
+        this._editMode = false;
+        this.articleForm = new FormGroup({
+          "title": new FormControl(
+            null,
+            [
+              Validators.required,
+              Validators.minLength(5)
+            ]),
+          "tag": new FormControl('تگ مقاله', [Validators.required]),
+          "category": new FormControl('دسته بندی مقاله', [Validators.required]),
+          "summary": new FormControl('', [Validators.required]),
+          "content": new FormControl('', [Validators.required])
+        });// End Of Form Group
+      }
+    })
   }
 //#endregion
 
@@ -95,14 +130,52 @@ export class CreateComponent implements OnInit {
   /*-------------------*/
   //#region
   public onSubmit(archive? : string){
-    /*___Creatation Message___*/
-    this.messageService.CreateMessage(
-      'آیا از ایجاد این مقاله مطمئن هستید؟',
-      new MessageButton("بله", "confirm"),
-      new MessageButton("انصراف", "refuse")
-    );
-      this.messageService.responseNotif.subscribe(res => {
-        if(res == "confirm"){
+    let ok:[[string, ()=> void]] =[
+      ['بستن', ()=>{}]
+    ];
+    if(this._editMode){
+      /*___Edit Message___*/
+      let edit: [[string, ()=> void]]= [
+        ['انصراف', ()=>{}],
+        ['بله', ()=> {
+          this.article.title = this.articleForm.controls['title'].value;
+          this.article.category = this.articleForm.controls['category'].value;
+          this.article.tag = this.articleForm.controls['tag'].value;
+          this.article.summary = this.articleForm.controls['summary'].value;
+          this.article.content = this.articleForm.controls['content'].value;
+          this.article.archive = archive == undefined ? false : true;
+          this._authorPanelService.EditArticle(this.article)
+            .subscribe(result => {
+              if (result = "ok") {
+                this._authorPanelService.FetchArticles();
+                this._messageService.currentMessage.next(
+                  new Message(
+                    "مقاله با موفقیت ویرایش شد.",
+                    ok
+                  ));
+                this._router.navigate(['authors', 'index', 'repository']);
+
+              }
+            }, error => {
+              /*___Server Error Message___*/
+              this._messageService.currentMessage.next(
+                new Message(
+                  "خطا در برقراری ارتباط با سرور...!",
+                  ok
+                ));
+            });
+        }]
+      ]
+      this._messageService.currentMessage.next(
+        new Message(
+          "ویرایش ذخیره شود؟",
+          edit
+        ));
+    }else {
+      /*___Creatation Message___*/
+      let create: [[string, ()=>void]]=[
+        ['انصراف', ()=>{}],
+        ['بله', ()=> {
           /*___Create Article___*/
           this.article = new ArticleModel(
             this.articleForm.controls['title'].value,
@@ -110,30 +183,37 @@ export class CreateComponent implements OnInit {
             this.articleForm.controls['tag'].value,
             this.articleForm.controls['summary'].value,
             this.articleForm.controls['content'].value,
-            archive ==undefined ? false : true
+            archive == undefined ? false : true
           );
           /*___Send Article To Server___*/
-          this.authorPanelService.CreateArticle(this.article)
-                            .subscribe(result => {
-            if (result = "ok") {
-              this.messageService.CreateMessage(
-                'مقاله مورد نظر با موفقیت ایجاد شد.',
-                new MessageButton("بستن", "refuse")
-              );
-              this.router.navigate(['authors','index']);
-            }
-          },error => {
-            /*___Server Error Message___*/
-            this.messageService.CreateMessage(
-              "خطا در ارسال مقاله..!",
-                new MessageButton("بستن", "refuse")
-            );
+          this._authorPanelService.CreateArticle(this.article)
+            .subscribe(result => {
+              if (result = "ok") {
+                this._authorPanelService.FetchArticles();
+                this._messageService.currentMessage.next(
+                  new Message(
+                    "مقاله جدید با موفقیت ایجاد شد.",
+                    ok
+                  ));
+                this._router.navigate(['authors', 'index', 'repository']);
+              }
+            }, error => {
+              /*___Server Error Message___*/
+              this._messageService.currentMessage.next(
+                new Message(
+                  "خطا در برقراری ارتباط با سرور...!",
+                  ok
+                ));
 
-          });
-        }
-      }, error => {
-      });
-
+            });
+        }]
+      ]
+      this._messageService.currentMessage.next(
+        new Message(
+          "مقاله جدید ایجاد شود؟",
+          create
+        ));
+    }
   }
 
   public onClosePreShow(){

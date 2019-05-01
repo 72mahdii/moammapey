@@ -9,61 +9,23 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class MessageComponent implements OnInit {
 
-    /*                       */
-   /* Properties and Fields */
-  /*                       */
- //#region                 /
 
- public message : Message = null;
-
-  //#endregion
-/*_______________________*/
+ public message : Message = new Message();
+ public msg : boolean = false;
 
 
-    /*                          */
-   /* Constructor and ngOnInit */
-  /*                          */
- //#region                    /
 
   constructor(private messageServcie: MessageService) { }
-
   ngOnInit() {
-    // this.messageServcie.messageListener$.subscribe(message => {
-    //   this.message = message;
-    // });
-    this.messageServcie.messageNotif.subscribe(res => {
-      this.message = res;
+    this.messageServcie.currentMessage.subscribe((msg : Message) => {
+      this.message = msg;
+      this.msg = true;
     })
+
   }
 
-  //#endregion
-/*__________________________*/
-
-
-    /*                    */
-   /* Methods And Events */
-  /*                    */
- //#region              /
-
-  onPushBtn(value: string) {
-    // this.messageServcie.response.next(value);
-    if(value =="confirm"){
-      this.messageServcie.responseNotif.next(value);
-      this.onClose();
-
-    }else {
-      this.message = null;
-    }
+  onPushBtn(rsp){
+    rsp[1]();
+    this.msg = false;
   }
-
-  onClose() {
-    this.message = null;
-    // this.messageServcie.messageNotif.unsubscribe();
-    // this.messageServcie.responseNotif.unsubscribe();
-  }
-
-//#endregion
-/*____________________*/
-
-
 }

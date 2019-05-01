@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Password } from 'src/app/models/password.model';
 import { MessageService } from 'src/app/services/message.service';
-import { Message, MessageButton } from 'src/app/models/message.model';
+import { Message } from 'src/app/models/message.model';
 import { AuthorPanelService } from 'src/app/services/author.service';
 import { Router } from '@angular/router';
 
@@ -25,9 +25,9 @@ export class PasswordComponent implements OnInit {
   /*-----------------------*/
   //#region
   constructor(
-    private messageService : MessageService,
-    private authorPanel : AuthorPanelService,
-    private router : Router
+    private _messageService : MessageService,
+    private _authorPanel : AuthorPanelService,
+    private _router : Router
   ) { }
 
   ngOnInit() {
@@ -47,36 +47,32 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit(){
-    var message = new Message(
-      "از اعمال تغییرات مطمئن هستید؟",
-      [
-        new MessageButton("انصراف", 'refuse'),
-        new MessageButton("بله", 'confirm')]
-    );
-    this.messageService.messageListener.next(message);
-    this.messageService.response$.subscribe(result => {
-      if (result == 'confirm') {
-        this.authorPanel.ChangePassowrd(this.password).subscribe(rs => {
+    let ok = [['بستن', ()=>{}]];
+    let conf = [
+      ['انصراف', ()=>{}],
+      ['بله', ()=> {
+        this._authorPanel.ChangePassowrd(this.password).subscribe(rs => {
           if (rs == "ok") {
-            var msg = new Message(
-              "رمزعبور با موفقیت بروزرسانی شد.",
-              [new MessageButton("بستن", "confirm")]);
-            this.messageService.messageListener.next(msg);
-            this.messageService.response$.subscribe(result => {
-              this.messageService.messageListener.unsubscribe();
-            });
+            this._messageService.currentMessage.next(
+              new Message(
+                "رمز عبور بروز رسانی شد.",
+                ok
+              ));
           } else {
-            var msg = new Message(
-              "خطادر بروزرسانی رمز عبور!",
-              [new MessageButton("بستن", "confirm")]);
-            this.messageService.messageListener.next(msg);
-            this.messageService.response$.subscribe(result => {
-              this.messageService.messageListener.unsubscribe();
-            });
+            this._messageService.currentMessage.next(
+              new Message(
+                "خطا در بروزرسانی رمز عبور",
+                ok
+              ));
           }
         });
-      }
-    });
+      }]
+    ];
+    this._messageService.currentMessage.next(
+      new Message(
+        "اعلام تغییرات رمزعبور؟",
+        conf
+      ));
   }
   //#endregion
 }

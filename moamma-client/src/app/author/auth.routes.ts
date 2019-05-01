@@ -16,12 +16,12 @@ const children: Routes =[
   { path: "avatar-setting", component: AvatarComponent },
   { path: "change-password", component: PasswordComponent },
   { path: "change-profile", component: ProfileComponent },
-  { path: "create-article", component: CreateComponent }
+  { path: "create-article/:id", component: CreateComponent }
 ];
 
 const routes : Routes =[
   { path: "authors/index", component: IndexComponent, children: children
-  , canActivate: [] },
+  , canActivate: [AuthGuard] },
 ];
 
 export const AuthRoutes = RouterModule.forRoot(routes);

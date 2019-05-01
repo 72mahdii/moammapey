@@ -58,8 +58,16 @@
                 transform: scale(1.4);
                 transition: all .3s;
               }
-              .cog {
+              .trash {
                 color: $red_1 !important;
+              }
+              .trash i:hover {
+                cursor: pointer;
+                transform: scale(1.4);
+                transition: all .3s;
+              }
+              .cog {
+                color: $blue_1 !important;
               }
               .cog i:hover {
                 cursor: pointer;

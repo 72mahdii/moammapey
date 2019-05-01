@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorPanelService } from 'src/app/services/author.service';
+import { Author } from "src/app/models/author.model"
 
 @Component({
   selector: 'app-welcome',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  public author: Author;
+
+  constructor(
+    private authorPanel : AuthorPanelService
+  ) { }
 
   ngOnInit() {
+    this.authorPanel.FetchAuthor().subscribe(author => {
+      this.author = author;
+    })
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorPanelService } from 'src/app/services/author.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  public archiveCounter: number =0;
+  constructor(
+    private _authorPanel : AuthorPanelService
+  ) { }
 
   ngOnInit() {
+    this.archiveCounter = this._authorPanel.archiveCounter;
+    this._authorPanel.loadData.subscribe(rst => {
+      this.archiveCounter = this._authorPanel.archiveCounter;
+    })
   }
 
 }
