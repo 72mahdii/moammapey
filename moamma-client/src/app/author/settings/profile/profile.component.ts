@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
 
   public profile : Profile  = new Profile("","","", "");
-
+  public categoryLabel:string;
       /*------------------------*/
     /* Construct and ngOnInit */
   /*------------------------*/
@@ -32,6 +32,18 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    var author = this._authorPanel.loginAuthor;
+    this.profile.email = author.email;
+    this.profile.persianName = author.persianName;
+    this.profile.userName = author.userName;
+    this.profile.imageAddress = author.imageAddress;
+    switch (author.category) {
+      case "geo": this.categoryLabel = "ژئوتکنیک"; break;
+      case "earth": this.categoryLabel = "زلزله"; break;
+      case "mng": this.categoryLabel = "مدیریت ساخت"; break;
+      default: this.categoryLabel = "---"; break;
+    }
+    this.profile.category = author.category;
   }
   //#endregion
 
@@ -45,27 +57,37 @@ export class ProfileComponent implements OnInit {
     let conf = [
       ['انصراف', ()=>{}],
       ['بله', ()=>{
+        document.getElementById('wait').classList.remove('hide');
         this._authorPanel.ChangeProfile(this.profile)
           .subscribe(rs => {
             if (rs == "ok") {
+              document.getElementById('wait').classList.add('hide');
               this._messageService.currentMessage.next(
                 new Message(
                   "تغییرات پروفایل با موفقیت انجام شد.",
                   ok
                 ));
+                this._authorPanel.FetchAuthor();
+                this._router.navigate(['authors','index','repository']);
             } else {
+              document.getElementById('wait').classList.add('hide');
               this._messageService.currentMessage.next(
                 new Message(
                   "خطا در عملیات بروز رسانی پروفایل",
                   ok
                 ));
+              this._router.navigate(['authors', 'index', 'repository']);
+
             }
           }, error => {
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
                 new Message(
                   "خطا در برقراری ارتباط با سرور",
                   ok
                 ));
+              this._router.navigate(['authors', 'index', 'repository']);
+
           });
       }]
     ];

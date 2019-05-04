@@ -49,10 +49,10 @@ export class ArticlesListComponent implements OnInit {
     /* Methods and Events */
   /*--------------------*/
   public onTrash(article : Article){
-    let ok: [[string, ()=> void]]= [
+    let ok= [
       ['بستن', ()=>{}]
     ];
-    let op: [[string, ()=> void]] = [
+    let op = [
       ['انصراف', ()=>{}],
       ["بله", ()=> {
         this._authorPanel.TrashArticle(article).subscribe(r =>{

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { MessageService } from 'src/app/services/message.service';
+import { Message } from 'src/app/models/message.model';
 
 @Component({
   selector: 'app-settings',
@@ -9,14 +12,27 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SettingsComponent implements OnInit {
 
   constructor(
-    private authServcie : AuthService
+    private _authServcie : AuthService,
+    private _router : Router,
+    private _messageService : MessageService
   ) { }
 
   ngOnInit() {
   }
 
   onExit(){
-    this.authServcie
+    let confirm = [
+      ['انصراف', ()=>{}],
+      ['بله', () => {
+        this._authServcie.signOut();
+        this._router.navigate(['']);
+      }]
+    ]
+    this._messageService.currentMessage.next(
+      new Message(
+      "از ناحیه کاربری خارج می شوید؟",
+      confirm
+    ));
   }
 
 }

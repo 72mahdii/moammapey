@@ -28,3 +28,15 @@
     border-right: solid .5rem $gold_1;
   }
 }
+
+@keyframes pop {
+  from{
+    transform: translate(-50%, -50%) scale(.7);
+    border-radius: 10%
+  }
+  to{
+    transform: translate(-50%, -50%) scale(1.1);
+    border-radius: 100%
+
+  }
+}

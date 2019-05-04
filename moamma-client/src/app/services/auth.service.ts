@@ -61,7 +61,7 @@ import {
 
     /*>>>> Sign Out <<<<*/
     public signOut(){
-      this._manager.signoutRedirect();
+      this._manager.signoutRedirectCallback("http://localhost:4200/");
     }
 
     /*>>>> Get Authorization Header <<<<*/

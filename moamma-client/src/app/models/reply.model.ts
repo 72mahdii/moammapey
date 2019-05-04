@@ -6,3 +6,5 @@ export class ReplyComment {
     public commentId: number
   ){}
 }
+
+

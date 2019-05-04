@@ -69,8 +69,10 @@ export class AvatarComponent implements OnInit {
       ['انصراف', ()=>{}],
       ['بله', ()=> {
         if (this.uploadedImage != null) {
+          document.getElementById('wait').classList.remove('hide');
           this._authorPanel.changeAvatar(this.uploadedImage).subscribe(rs => {
             if (rs == "ok") {
+              document.getElementById('wait').classList.add('hide');
               this._messageService.currentMessage.next(
                 new Message(
                   "آواتار با موفقیت بروز شد.",
@@ -78,18 +80,24 @@ export class AvatarComponent implements OnInit {
                 ));
               this._router.navigate(['authors', 'index', 'repository'])
             } else {
+              document.getElementById('wait').classList.add('hide');
               this._messageService.currentMessage.next(
                 new Message(
                   'خطا در بروزرسانی آواتار',
                   ok
                 ));
+              this._router.navigate(['authors', 'index', 'repository']);
+
             }
           }, error => {
+              document.getElementById('wait').classList.add('hide');
               this._messageService.currentMessage.next(
                 new Message(
                   'خطا در برقراری ارتباط با سرور',
                   ok
                 ));
+              this._router.navigate(['authors', 'index', 'repository']);
+
           });
         }
       }]

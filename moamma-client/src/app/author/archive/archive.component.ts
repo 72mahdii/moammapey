@@ -46,15 +46,16 @@ export class ArchiveComponent implements OnInit {
   public onTrash(article : Article){
     /*___Define Message Buttons___*/
 
-    let op: [[string, () => void]] = [
+    let op= [
       ["بستن", () => { }]
     ];
-    let rsp : [[string, () => void ]] =[
+    let rsp =[
       ["انصراف", ()=> {}],
       ["بله", () => {
+        document.getElementById('wait').classList.remove('hide');
         this._authroPanel.TrashArticle(article).subscribe(r => {
           if(r == "ok"){
-
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
               new Message(
                 "انتقال مقاله با موفقیت انجام شد.",
@@ -62,6 +63,7 @@ export class ArchiveComponent implements OnInit {
                 ));
             this._authroPanel.FetchArticles();
           }else {
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
               new Message(
                 "عملیات انتقال با خطا مواجه شد!",
@@ -70,6 +72,7 @@ export class ArchiveComponent implements OnInit {
             )
           }
         }, error => {
+          document.getElementById('wait').classList.add('hide');
           this._messageService.currentMessage.next(
             new Message(
               "خطا در ارتباط با سرور..!",
@@ -94,10 +97,10 @@ export class ArchiveComponent implements OnInit {
 
     /*___Define Message Buttons___*/
 
-    let op2: [[string, () => void]] = [
+    let op2 = [
       ['بستن', () => { }]
     ];
-    let op: [[string, ()=>void]] = [
+    let op= [
       ["انصراف", ()=>{}],
       [ "بله", ()=> {
         article.archive = false;

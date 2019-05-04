@@ -1,3 +1,5 @@
+import { Comment } from './comment.model';
+
 export class Article {
   constructor(
     public title:string,

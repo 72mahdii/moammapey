@@ -5,7 +5,7 @@
   font-family: 'B_Esfehan';
   .article_box {
     @include bg($gr_black_2);
-    @include border(.1rem $blue_2);
+    @include border(.3rem $blue_2);
     border-radius: .5rem;
     margin: 2rem;
     .header {
@@ -67,7 +67,7 @@
                 transition: all .3s;
               }
               .cog {
-                color: $blue_1 !important;
+                color: $gold_4 !important;
               }
               .cog i:hover {
                 cursor: pointer;
@@ -83,6 +83,15 @@
       }
     }
   }
+}
+
+.no-archive {
+  font-family: 'B_Esfehan';
+  font-size: 2.5rem;
+  padding: 2rem;
+  margin: 1rem auto;
+  text-align: center;
+  color: $white_1;
 }
 
 .message_dialog,

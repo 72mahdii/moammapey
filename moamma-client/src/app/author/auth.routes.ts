@@ -8,11 +8,13 @@ import { AvatarComponent } from './settings/avatar/avatar.component';
 import { PasswordComponent } from './settings/password/password.component';
 import { ProfileComponent } from './settings/profile/profile.component';
 import { CreateComponent } from './create/create.component';
+import { CommentComponent } from './comment/comment.component';
 
 const children: Routes =[
   { path: "repository", component: ArticlesListComponent },
   { path: "archive", component: ArchiveComponent },
   { path: "trash", component: TrashComponent},
+  { path: "comment-manager", component: CommentComponent } ,
   { path: "avatar-setting", component: AvatarComponent },
   { path: "change-password", component: PasswordComponent },
   { path: "change-profile", component: ProfileComponent },

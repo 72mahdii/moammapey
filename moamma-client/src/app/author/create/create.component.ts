@@ -96,7 +96,7 @@ export class CreateComponent implements OnInit {
             "content": new FormControl(this.article.content, [Validators.required])
           });// End Of Form Group
         }else {
-          let ok :[[string, ()=>void]]=[
+          let ok =[
             ['بستن', ()=>{}]
           ];
           this._messageService.currentMessage.next(
@@ -130,14 +130,15 @@ export class CreateComponent implements OnInit {
   /*-------------------*/
   //#region
   public onSubmit(archive? : string){
-    let ok:[[string, ()=> void]] =[
+    let ok=[
       ['بستن', ()=>{}]
     ];
     if(this._editMode){
       /*___Edit Message___*/
-      let edit: [[string, ()=> void]]= [
+      let edit= [
         ['انصراف', ()=>{}],
         ['بله', ()=> {
+          document.getElementById('wait').classList.remove('hide');
           this.article.title = this.articleForm.controls['title'].value;
           this.article.category = this.articleForm.controls['category'].value;
           this.article.tag = this.articleForm.controls['tag'].value;
@@ -147,6 +148,7 @@ export class CreateComponent implements OnInit {
           this._authorPanelService.EditArticle(this.article)
             .subscribe(result => {
               if (result = "ok") {
+                document.getElementById('wait').classList.add('hide');
                 this._authorPanelService.FetchArticles();
                 this._messageService.currentMessage.next(
                   new Message(
@@ -157,6 +159,7 @@ export class CreateComponent implements OnInit {
 
               }
             }, error => {
+              document.getElementById('wait').classList.add('hide');
               /*___Server Error Message___*/
               this._messageService.currentMessage.next(
                 new Message(
@@ -173,9 +176,10 @@ export class CreateComponent implements OnInit {
         ));
     }else {
       /*___Creatation Message___*/
-      let create: [[string, ()=>void]]=[
+      let create=[
         ['انصراف', ()=>{}],
         ['بله', ()=> {
+          document.getElementById('wait').classList.remove('hide');
           /*___Create Article___*/
           this.article = new ArticleModel(
             this.articleForm.controls['title'].value,
@@ -189,6 +193,7 @@ export class CreateComponent implements OnInit {
           this._authorPanelService.CreateArticle(this.article)
             .subscribe(result => {
               if (result = "ok") {
+                document.getElementById('wait').classList.add('hide');
                 this._authorPanelService.FetchArticles();
                 this._messageService.currentMessage.next(
                   new Message(
@@ -198,6 +203,7 @@ export class CreateComponent implements OnInit {
                 this._router.navigate(['authors', 'index', 'repository']);
               }
             }, error => {
+              document.getElementById('wait').classList.add('hide');
               /*___Server Error Message___*/
               this._messageService.currentMessage.next(
                 new Message(

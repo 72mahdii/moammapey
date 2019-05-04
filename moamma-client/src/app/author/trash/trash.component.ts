@@ -3,7 +3,7 @@ import * as $ from "jquery";
 import { Trash } from 'src/app/models/trash.model';
 import { AuthorPanelService } from 'src/app/services/author.service';
 import { MessageService } from 'src/app/services/message.service';
-import { MessageButton, Message } from 'src/app/models/message.model';
+import { Message } from 'src/app/models/message.model';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -33,6 +33,7 @@ export class TrashComponent implements OnInit {
     let undo =[
       ["انصراف", ()=>{}],
       ["بله", ()=> {
+        document.getElementById('wait').classList.remove('hide');
         var article: Article = new Article(
           trash.title,
           trash.category,
@@ -43,6 +44,7 @@ export class TrashComponent implements OnInit {
         );
         this._authorPanel.RetArticle(trash).subscribe(r => {
           if (r == "ok") {
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
               new Message(
                 "مقاله با موفقیت بازگردانی و در قسمت آرشیو ها ذخیره شد",
@@ -50,12 +52,16 @@ export class TrashComponent implements OnInit {
             this._authorPanel.FetchArticles();
             this._authorPanel.FetchTrashes();
           } else {
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
               new Message(
                 "خطا در عملیات بازگردانی",
                 ok));
           }
-        }, error => this._messageService.currentMessage.next(new Message("خطا در برقراری ارتباط با سرور...!", ok)));
+        }, error =>{
+          document.getElementById('wait').classList.add('hide');
+          this._messageService.currentMessage.next(new Message("خطا در برقراری ارتباط با سرور...!", ok))
+        });
       }]
     ]
 
@@ -71,7 +77,10 @@ export class TrashComponent implements OnInit {
     let erase   = [
       ['انصراف',()=>{}],
       ['بله', ()=> {
+        document.getElementById('wait').classList.remove('hide');
         this._authorPanel.EraseArticle(id);
+        this._messageService.currentMessage.next(
+          new Message("مقاله باموفقیت حذف شد!", ok));
         this._authorPanel.FetchArticles();
         this._authorPanel.FetchTrashes();
       }]

@@ -20,6 +20,7 @@ import { PasswordComponent } from './settings/password/password.component';
 import { ProfileComponent } from './settings/profile/profile.component';
 import { CreateComponent } from './create/create.component';
 import { NgxSummernoteModule } from "ngx-summernote";
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   declarations:[
@@ -34,6 +35,7 @@ import { NgxSummernoteModule } from "ngx-summernote";
     PasswordComponent,
     ProfileComponent,
     CreateComponent,
+    CommentComponent,
   ],
   imports:[
     CommonModule,

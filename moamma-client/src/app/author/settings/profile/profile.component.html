@@ -1,31 +1,31 @@
 <div class="password-box">
   <div class="container">
-      <div class="row  p-3">
+      <div class="row py-3">
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
           <div class="list-group m-auto" style="direction: rtl;">
             <h5 class="list-group-item list-group-item-success p-3">
-              ---
+                تگ مقالات: {{ categoryLabel }}
+            </h5>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+          <div class="list-group m-auto" style="direction: rtl;">
+            <h5 class="list-group-item list-group-item-success py-3 px-1">
+              ایمیل: {{ profile.email }}
             </h5>
           </div>
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
           <div class="list-group m-auto" style="direction: rtl;">
             <h5 class="list-group-item list-group-item-success p-3">
-              ---
+              نام کاربری: {{ profile.userName }}
             </h5>
           </div>
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
           <div class="list-group m-auto" style="direction: rtl;">
             <h5 class="list-group-item list-group-item-success p-3">
-              ----
-            </h5>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-          <div class="list-group m-auto" style="direction: rtl;">
-            <h5 class="list-group-item list-group-item-success p-3">
-                ----
+              نام: {{ profile.persianName }}
             </h5>
           </div>
         </div>
@@ -70,7 +70,7 @@
                 <option>تگ مقاله</option>
                 <option value="geo">ژئوتکنیک</option>
                 <option value="mng">مدیریت ساخت</option>
-                <option value="earth">سازه</option>
+                <option value="earth">زلزله</option>
               </select>
             </div>
             <a class="btn btn-secondary d-inline-block w-25 btn-lg mx-2">انصراف</a>

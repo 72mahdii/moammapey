@@ -3,7 +3,7 @@ import { Password } from 'src/app/models/password.model';
 import { MessageService } from 'src/app/services/message.service';
 import { Message } from 'src/app/models/message.model';
 import { AuthorPanelService } from 'src/app/services/author.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-password',
@@ -51,20 +51,35 @@ export class PasswordComponent implements OnInit {
     let conf = [
       ['انصراف', ()=>{}],
       ['بله', ()=> {
+        document.getElementById('wait').classList.remove('hide');
         this._authorPanel.ChangePassowrd(this.password).subscribe(rs => {
           if (rs == "ok") {
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
               new Message(
                 "رمز عبور بروز رسانی شد.",
                 ok
               ));
+              this._router.navigate(['authors','index','repository']);
           } else {
+            document.getElementById('wait').classList.add('hide');
             this._messageService.currentMessage.next(
               new Message(
                 "خطا در بروزرسانی رمز عبور",
                 ok
               ));
+            this._router.navigate(['authors', 'index', 'repository']);
+
           }
+        }, error => {
+            document.getElementById('wait').classList.add('hide');
+            this._messageService.currentMessage.next(
+              new Message(
+                "خطا در برقراری ارتباط با سرور",
+                ok
+              ));
+            this._router.navigate(['authors', 'index', 'repository']);
+
         });
       }]
     ];

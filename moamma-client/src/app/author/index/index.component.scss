@@ -5,7 +5,6 @@
   background: linear-gradient(90deg, #1a1919, #272626);
   height:100%;
 }
-
 .popup-message {
   @include size(30rem, 6rem);
   @include bg($white_1);
@@ -34,23 +33,20 @@
 
 
 }
-
 .hide {
   // display: none;
   visibility: hidden;
   opacity: 0;
   transition: all .6s;
 }
-
 .show {
   visibility: visible;
   opacity: 1;
   transition: all .6s;
 }
-
 .loading-box {
   @include rawFix;
-  @include bg(rgba($black_1, .7));
+  @include bg($black_1);
   @include size(100%, 100vh);
   transition: all .6s;
   .loading {
@@ -75,3 +71,26 @@
   }
 }
 
+.waiting-box {
+  position: fixed;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  @include bg($red_1);
+  z-index: 9999;
+  @include shadow(3rem $red_1);
+  @include size(20rem, 20rem);
+  border-radius: 100%;
+  animation:pop;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  transition: all .3s;
+  .wait-text {
+    @include abC;
+    font-family: 'B_Esfehan';
+    font-size: 2rem;
+    color: $white_1;
+    @include size(100%, auto);
+    text-align: center;
+  }
+}

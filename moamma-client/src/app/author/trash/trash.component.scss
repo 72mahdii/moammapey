@@ -1,11 +1,12 @@
 @import '../../scss/importer';
+
 .deleted {
   @include bg($gr_black_1);
   font-family: 'B_Esfehan';
   .article_box {
     border-radius: .5rem;
     @include bg($gr_black_1);
-    @include border(.1rem $red_1);
+    @include border(.3rem $red_1);
     margin: 2rem;
     & input,
     & a {
@@ -91,8 +92,14 @@
     }
   }
 }
-
-
+.no-trash {
+  font-family: 'B_Esfehan';
+  font-size: 2.5rem;
+  padding: 2rem;
+  margin: 1rem auto;
+  text-align: center;
+  color: $red_1;
+}
 .message_dialog,
 .message_dialog_2 {
   @include rawFix;

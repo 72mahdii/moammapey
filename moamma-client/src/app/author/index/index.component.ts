@@ -37,7 +37,12 @@ export class IndexComponent implements OnInit {
     if(this._authorPanel.articlesList.length >0){
       document.getElementById("login").classList.add('hide');
     }
+    this._authorPanel.FetchAuthor();
     this._router.navigate(['authors','index','repository'])
+    setTimeout(() => {
+      document.getElementById('pop').classList.remove('show');
+      document.getElementById('pop').classList.add('hide');
+    }, 10000);
 
   }
   //#endregion

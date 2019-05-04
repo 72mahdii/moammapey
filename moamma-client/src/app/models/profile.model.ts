@@ -3,6 +3,7 @@ export class Profile {
     public userName: string,
     public email: string,
     public persianName: string,
-    public category :string
+    public category :string,
+    public imageAddress? : string
   ){}
 }

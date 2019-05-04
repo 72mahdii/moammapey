@@ -7,11 +7,15 @@ import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Password } from '../models/password.model';
 import { Profile } from '../models/profile.model';
-import { Message, MessageButton } from '../models/message.model';
+import { Message } from '../models/message.model';
 import { MessageService } from './message.service';
 import { Article } from '../models/article.model';
 import { Subject } from 'rxjs';
 import { Trash } from '../models/trash.model';
+import { Author } from '../models/author.model';
+import { Comment } from "../models/comment.model";
+import { CommentManager } from '../models/cmd.model';
+import { SendReply } from '../models/sReply.model';
 //#endregion
 
 @Injectable()
@@ -21,14 +25,18 @@ export class AuthorPanelService {
     /* Properties and Fields */
   /*                       */
   //#region
-  public loadData: Subject<boolean> = new Subject<boolean>();
-  public loadTrash : Subject<boolean> = new Subject<boolean>();
   private _apiUrl = "http://localhost:5050/api/administration/";
   private _apiUrlA = "http://localhost:5050/api/articles/";
+
+  public loadData: Subject<boolean> = new Subject<boolean>();
+  public loadTrash : Subject<boolean> = new Subject<boolean>();
+  public loadAuthor : Subject<boolean> = new Subject<boolean>();
+  public loadComment : Subject<boolean> = new Subject<boolean>();
 
   public articlesList : Article[]=[];
   public trashesList : Trash[] = [];
   public archiveCounter : number =0;
+  public loginAuthor : Profile;
   //#endregion
 
       /*                          */
@@ -36,11 +44,46 @@ export class AuthorPanelService {
   /*                          */
   //#region
   constructor(
-    private authService : AuthService,
-    private httpClient : HttpClient,
-    private messageService : MessageService
+    private _authService : AuthService,
+    private _httpClient : HttpClient,
+    private _messageService : MessageService
   ){}
   //#endregion
+
+
+      /*            */
+    /* Send Reply */
+  /*            */
+  public SendReply(rp : SendReply){
+    console.log("HEy");
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post(this._apiUrlA + "SendReply", rp, header);
+  }
+
+      /*                       */
+    /* Fetch Unread Comments */
+  /*                       */
+  public get UnreadComments() {
+    var comments : Comment[] = [];
+    this.articlesList.forEach(a => {
+      if(a.comments.length >0){
+        a.comments.forEach(c => {
+          if(!c.approved){
+            comments.push(c);
+          }
+        })
+      }
+    });
+    return comments;
+  }
+
+      /*                         */
+    /* UnCheck Comment Manager */
+  /*                         */
+  public UnCheckCommentManager(cmd : CommentManager){
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post<any>(this._apiUrlA + "UnCheckCommentManager", cmd, header);
+  }
 
       /*                */
     /* Return Article */
@@ -53,16 +96,22 @@ export class AuthorPanelService {
     /* Fetch Author */
   /*              */
   public FetchAuthor(){
-    var header =this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.get<any>(this._apiUrl + "FetchAuthor", header);
+    var header =this.headerMaker(this._authService.authorHeader);
+    this._httpClient.get<any>(this._apiUrl + "FetchAuthor", header)
+      .subscribe(author => {
+        if(author != null){
+          this.loginAuthor = author;
+          this.loadAuthor.next(true);
+        }
+      });
   }
 
       /*                */
     /* Fetch Articles */
   /*                */
   public FetchArticles() {
-    var header = this.headerMaker(this.authService.authorHeader);
-    this.httpClient.get<any>(
+    var header = this.headerMaker(this._authService.authorHeader);
+    this._httpClient.get<any>(
       this._apiUrlA + "FetchArticles",header).subscribe(articles => {
         if(articles != null){
           this.articlesList = articles;
@@ -73,12 +122,16 @@ export class AuthorPanelService {
             }
           });
           this.loadData.next(true);
+          this.loadComment.next(true);
         }
       }, error => {
-        this.messageService.CreateMessage(
-          "خطا در بارگزاری اطلاعات!",
-          new MessageButton("بستن", "refuse")
-        );
+        console.log(error);
+        let ok = [['بستن', ()=>{}]];
+        this._messageService.currentMessage.next(
+          new Message(
+            "خطا در برقراری ارتباط با سرور",
+            ok
+          ));
       });
   }
 
@@ -86,8 +139,8 @@ export class AuthorPanelService {
     /* Fetch Trashes */
   /*                */
   public FetchTrashes(){
-    const header = this.headerMaker(this.authService.authorHeader);
-    this.httpClient.get<any>(this._apiUrlA + "FetchTrashes", header).subscribe(tr => {
+    const header = this.headerMaker(this._authService.authorHeader);
+    this._httpClient.get<any>(this._apiUrlA + "FetchTrashes", header).subscribe(tr => {
       this.trashesList = tr;
       this.loadTrash.next(true);
     });
@@ -97,8 +150,8 @@ export class AuthorPanelService {
     /* Create Article */
   /*                */
   public CreateArticle(article : Article){
-    const header =this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.post(this._apiUrlA + "CreateArticle", article, header);
+    const header =this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post(this._apiUrlA + "CreateArticle", article, header);
   }
 
 
@@ -106,24 +159,24 @@ export class AuthorPanelService {
     /* Edit Article */
   /*              */
   public EditArticle(article : Article){
-    const header = this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.post(this._apiUrlA + "EditArticle", article, header);
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post(this._apiUrlA + "EditArticle", article, header);
   }
 
       /*               */
     /* Trash Article */
   /*               */
   public TrashArticle(article: Article) {
-    const header = this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.post<any>(this._apiUrlA + "TrashArticle", article, header);
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post<any>(this._apiUrlA + "TrashArticle", article, header);
   }
 
-/*               */
-/* Trash Article */
-/*               */
+      /*                 */
+    /* Restore Article */
+  /*                 */
   public RetArticle(trash : Trash){
-    const header = this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.post<any>(this._apiUrlA + "RetArticle", trash, header);
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post<any>(this._apiUrlA + "RetArticle", trash, header);
   }
 
       /*               */
@@ -131,11 +184,12 @@ export class AuthorPanelService {
   /*               */
   public EraseArticle(id:string){
     let ok = [['بستن', () => { }]];
-    const header = this.headerMaker(this.authService.authorHeader);
-    this.httpClient.post(this._apiUrlA + "EraseArticle", id, header)
+    const header = this.headerMaker(this._authService.authorHeader);
+    this._httpClient.post(this._apiUrlA + "EraseArticle", id, header)
       .subscribe(r => {
         if(r=="ok"){
-          this.messageService.currentMessage.next(
+          document.getElementById('wait').classList.add('hide');
+          this._messageService.currentMessage.next(
             new Message(
               "مقاله به طور کامل از بانک اطلاعاتی حذف شد.",
               ok
@@ -144,7 +198,8 @@ export class AuthorPanelService {
           this.FetchTrashes();
         }
       }, error => {
-          this.messageService.currentMessage.next(
+          document.getElementById('wait').classList.add('hide');
+          this._messageService.currentMessage.next(
             new Message(
               "خطا در برقراری ارتباط با سرور...!",
               ok
@@ -157,10 +212,10 @@ export class AuthorPanelService {
     /* Change Avatar */
   /*               */
   public changeAvatar(file: File){
-    const header = this.headerMaker(this.authService.authorHeader);
+    const header = this.headerMaker(this._authService.authorHeader);
     var formData = new FormData();
     formData.append(file.name, file);
-    return this.httpClient.post(
+    return this._httpClient.post(
       this._apiUrl + "uploadimage", formData, header);
   }
 
@@ -168,8 +223,8 @@ export class AuthorPanelService {
   /* Change Password */
 /*                 */
   public ChangePassowrd(password: Password){
-    const header = this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.post(
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post(
       this._apiUrl + "changepassowrd",
       password,
       header
@@ -180,8 +235,8 @@ export class AuthorPanelService {
   /* ChangeProfile */
 /*               */
   public ChangeProfile(profile : Profile){
-    const header = this.headerMaker(this.authService.authorHeader);
-    return this.httpClient.post(this._apiUrl + "changeprofile", profile, header);
+    const header = this.headerMaker(this._authService.authorHeader);
+    return this._httpClient.post(this._apiUrl + "changeprofile", profile, header);
   }
 
     /*               */
@@ -192,13 +247,13 @@ export class AuthorPanelService {
       return {
         headers: new HttpHeaders({
           'Content-Type': contentType,
-          'Authorization': this.authService.authorHeader
+          'Authorization': this._authService.authorHeader
         })
       }
     }else {
       return{
         headers: new HttpHeaders({
-          'Authorization': this.authService.authorHeader
+          'Authorization': this._authService.authorHeader
         })
       }
     }
