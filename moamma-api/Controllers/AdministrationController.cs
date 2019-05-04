@@ -172,24 +172,25 @@ namespace moamma_api.Controllers
         #region FetchAuthor
         [HttpGet]
         [Route("[action]")]
-        public async Task<FrontAuthor> FetchAuthor()
+        public async Task<Profile> FetchAuthor()
         {
             Author author = await _userManager.GetUserAsync(HttpContext.User);
             FrontAuthor fAuthor = _storageContext.Author.FirstOrDefault(a => a.Id == author.Id);
             if (author != null)
             {
-                FrontAuthor comingAuthor = new FrontAuthor
+                Profile comingAuthor = new Profile
                 {
-                    Id = author.Id,
-                    UserName = author.Id,
-                    Name = author.NameInPersian,
+                    Email = author.Email,
+                    UserName = author.UserName,
+                    PersianName = author.NameInPersian,
                     Category = fAuthor.Category,
-                    ImgAddress = fAuthor.ImgAddress
+                    ImageAddress = fAuthor.ImgAddress
                 };
                 return comingAuthor;
             }
             return null;
         }
         #endregion
+
     }
 }

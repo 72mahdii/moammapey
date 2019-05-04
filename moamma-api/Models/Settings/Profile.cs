@@ -11,5 +11,6 @@ namespace moamma_api.Models.Settings
         public string Email { get; set; }
         public string PersianName { get; set; }
         public string Category { get; set; }
+        public string ImageAddress { get; set; }
     }
 }

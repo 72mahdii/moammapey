@@ -18,7 +18,7 @@ namespace moamma_api.Models
         public bool Approved { get; set; }
         public long ArticleId { get; set; }
         public List<ReplyComment> ReplyComments { get; set; }
-        public Article Article { get; set; }
+        //public Article Article { get; set; }
 
     }
 }

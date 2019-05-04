@@ -9,13 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moamma_api.Controllers {
+namespace moamma_api.Controllers
+{
 
-    [Authorize(Policy = "moamma_spa")]
+    //[Authorize(Policy = "moamma_spa")]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ArticlesController : Controller{
-
+    public class ArticlesController : Controller
+    {
+        /*___Properties___*/
+        #region Properties
         private UserManager<Author> _userManager;
         private StorageContext _storageContext;
         private IArticleRep _articleRepository;
@@ -30,8 +33,12 @@ namespace moamma_api.Controllers {
             _userManager = userMng;
             _storageContext = strgContext;
             _articleRepository = artRep;
-            _host = hst;    
+            _host = hst;
         }
+
+        #endregion
+        /*---________---*/
+
 
         /*___Create Article___*/
         #region Create Article 
@@ -82,36 +89,68 @@ namespace moamma_api.Controllers {
 
                 return Json(e.Message);
             }
-            
+
         }
         #endregion
-        
+
         /*___Fetch Articles___*/
         #region FetchArticles
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IEnumerable<Article>> FetchArticles()
+        public async Task<List<Article>> FetchArticles()
         {
             try
             {
                 Author author = await _userManager.GetUserAsync(HttpContext.User);
-                List<Article> articles = new List<Article>();
-                foreach (Article article in _storageContext.Article.Include(a => a.Comments))
+                List<Article> articles = _storageContext.Article
+                    .Include(a => a.Comments).Where(a => a.AuthorId == author.Id)
+                    .OrderByDescending(a => a.CrtDate).ToList();
+                    
+                IQueryable<ReplyComment> replies = _storageContext.ReplyComment;
+                foreach (Article a in articles)
                 {
-                    if (article.AuthorId == author.Id)
+                    if (a.Comments.Count > 0)
                     {
-                        articles.Add(article);
+                        foreach (Comment c in a.Comments)
+                        {
+                            if (replies.Where(r => r.CommentId == c.Id).Count() > 0)
+                            {
+                                c.ReplyComments = replies.Where(r => r.CommentId == c.Id).ToList();
+                            }
+                        }
                     }
                 }
-                return articles.OrderByDescending(article => article.CrtDate);
+                return articles;
+                /*
+                IQueryable<Article> articles = _storageContext.Article.Include(a => a.Comments)
+                    .Where(a => a.AuthorId == author.Id);
+                await articles.ForEachAsync(a =>
+                {
+                    a.Comments.ForEach(async c =>
+                    {
+                        
+                        //c.ReplyComments = new List<ReplyComment>();
+                        await _storageContext.ReplyComment.ForEachAsync(r =>
+                        {
+                            if (r.CommentId == c.Id)
+                            {
+                                c.ReplyComments.Add(r);
+                            }
+                        });
+                    });
+                });
+                List<ReplyComment> rp = _storageContext.ReplyComment.ToList();
+                List<Article> articlesList = articles.ToList();
+                return articlesList;
+                */
             }
             catch (Exception e)
             {
 
                 return null;
             }
-            
+
         }
 
         #endregion
@@ -122,7 +161,7 @@ namespace moamma_api.Controllers {
         [Route("[action]")]
         public IEnumerable<DeletedArticle> FetchTrashes()
         {
-            return this._storageContext.DeletedArticle.ToList();
+            return this._storageContext.DeletedArticle.OrderByDescending(a => a.CrtDate).ToList();
         }
         #endregion
 
@@ -157,7 +196,7 @@ namespace moamma_api.Controllers {
 
                 return Json(e.Message);
             }
-            
+
         }
 
         #endregion
@@ -167,7 +206,8 @@ namespace moamma_api.Controllers {
 
         [HttpPost]
         [Route("[action]")]
-        public ActionResult<string> EraseArticle([FromBody]string id) {
+        public ActionResult<string> EraseArticle([FromBody]string id)
+        {
             try
             {
                 DeletedArticle dArticle = _storageContext.DeletedArticle.FirstOrDefault(a => a.Id == Convert.ToInt64(id));
@@ -216,9 +256,112 @@ namespace moamma_api.Controllers {
 
                 return Json(e.Message);
             }
+
+        }
+
+        #endregion
+
+        /*___UnCheck Comment Manager___*/
+        #region UnCheckCommentManager
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<string>> UnCheckCommentManager([FromBody]CommentManager cmd)
+        {
+            try
+            {
+                if (cmd.CmdDeleted.Length > 0)
+                {
+                    for (int i = 0; i < cmd.CmdDeleted.Length; i++)
+                    {
+                        Comment c = _storageContext.Comment
+                            .FirstOrDefault(ct => ct.Id == Convert.ToInt64(cmd.CmdDeleted[i]));
+                        if (c != null)
+                        {
+                            _storageContext.Comment.Remove(c);
+                        }
+                    }
+                }
+                if (cmd.ReplyDeleted.Length > 0)
+                {
+                    for (int i = 0; i < cmd.ReplyDeleted.Length; i++)
+                    {
+                        ReplyComment r = _storageContext.ReplyComment.FirstOrDefault(rp =>
+                                rp.Id == Convert.ToInt64(cmd.ReplyDeleted[i]));
+                        if (r != null)
+                        {
+                            _storageContext.ReplyComment.Remove(r);
+                        }
+                    }
+                }
+                if (cmd.CmdChecked.Length > 0)
+                {
+                    for (int i = 0; i < cmd.CmdChecked.Length; i++)
+                    {
+                        Comment c = _storageContext.Comment.FirstOrDefault(cm =>
+                                    cm.Id == Convert.ToInt64(cmd.CmdChecked[i]));
+                        if (c != null)
+                        {
+                            c.Approved = true;
+                            _storageContext.Comment.Update(c);
+                        }
+                    }
+                }
+                if (cmd.CmdUnChecked.Length > 0)
+                {
+                    for (int i = 0; i < cmd.CmdUnChecked.Length; i++)
+                    {
+                        Comment c = _storageContext.Comment.FirstOrDefault(cm =>
+                                cm.Id == Convert.ToInt64(cmd.CmdUnChecked[i]));
+                        if (c != null)
+                        {
+                            c.Approved = false;
+                            _storageContext.Comment.Update(c);
+                        }
+                    }
+                }
+                _storageContext.SaveChanges();
+                return Json("ok");
+            }
+            catch (Exception e)
+            {
+
+                return Json(e.Message);
+            }
             
         }
 
+        #endregion
+
+
+        /*___Send Reply___*/
+        #region SendReply
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult SendReply([FromBody]SendReply rp)
+        {
+            try
+            {
+                ReplyComment reply = new ReplyComment
+                {
+                    CommentId = Convert.ToInt64(rp.Id),
+                    Text = rp.Text,
+                    Name = "",
+                    Approved = true,
+                    Email ="",
+                    Vip = true
+                };
+                _storageContext.ReplyComment.Add(reply);
+                _storageContext.SaveChanges();
+                return Json("ok");
+            }
+            catch (Exception e)
+            {
+
+                return Json(e);
+            }
+            
+        }
         #endregion
     }
 }
